@@ -1,0 +1,36 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<h2>Buyer Dashboard</h2>
+<p>Welcome, {{ request.user.username }}! You can browse available crops, message farmers, and track your interests.</p>
+
+{% if weather %}
+<div style="background:#eef; padding:10px; border-radius:5px; width:250px;">
+  <h4>🌤 Weather in {{ location }}</h4>
+  <p><img src="http://openweathermap.org/img/wn/{{ weather.icon }}.png" alt="Weather icon">
+     {{ weather.temp }}°C - {{ weather.description }}</p>
+</div>
+{% endif %}
+
+<a href="{% url 'product_list' %}" class="btn btn-success">🛒 Browse Marketplace</a><br>
+<a href="{% url 'inbox' %}" class="btn btn-primary mt-2">📥 View Inbox ({{ unread_messages }})</a><br>
+
+<h3>🌱 Latest Crops</h3>
+<ul>
+  {% for product in recent_products %}
+    <li>
+      <strong>{{ product.title }}</strong> - ₦{{ product.price }} <br>
+      Location: {{ product.location }}
+    </li>
+  {% empty %}
+    <li>No crops available yet.</li>
+  {% endfor %}
+</ul>
+
+<h3>💡 Tips</h3>
+<ul>
+  <li>Use the filter bar on the marketplace to search by price and location.</li>
+  <li>Click on a product to view details and message the seller.</li>
+</ul>
+{% endblock %}

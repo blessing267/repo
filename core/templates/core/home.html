@@ -1,0 +1,32 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div style="text-align:center; padding:50px;">
+    <h1>🌾 Welcome to FarmMarket</h1>
+    <p>Connecting farmers and buyers directly for fresh, affordable produce.</p>
+
+    <a href="{% url 'login' %}" class="btn btn-primary" style="margin:5px;">Login</a>
+    <a href="{% url 'register' %}" class="btn btn-success" style="margin:5px;">Register</a>
+
+    <hr style="margin:40px 0;">
+
+    <h2>Why Use FarmMarket?</h2>
+    <div style="display:flex; justify-content:center; gap:40px; flex-wrap:wrap;">
+        <div style="width:250px;">
+            <h3>🛒 Direct Marketplace</h3>
+            <p>Farmers post their crops for sale and buyers purchase directly.</p>
+        </div>
+        <div style="width:250px;">
+            <h3>🌤 Weather Updates</h3>
+            <p>Stay informed with real-time weather forecasts for your farm or region.</p>
+        </div>
+        <div style="width:250px;">
+            <h3>💬 Messaging System</h3>
+            <p>Securely communicate between buyers and farmers to negotiate and arrange deliveries.</p>
+        </div>
+    </div>
+
+    <hr style="margin:40px 0;">
+    <p><em>FarmMarket — Fresh from the farm to your table.</em></p>
+</div>
+{% endblock %}

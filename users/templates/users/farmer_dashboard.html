@@ -1,0 +1,51 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<h2>Farmer Dashboard</h2>
+<p>Welcome, {{ request.user.username }}!</p>
+
+{% if weather %}
+<div style="background:#eef; padding:10px; border-radius:5px; width:250px;">
+  <h4>🌤 Weather in {{ location }}</h4>
+  <p><img src="http://openweathermap.org/img/wn/{{ weather.icon }}.png" alt="Weather icon">
+     {{ weather.temp }}°C - {{ weather.description }}</p>
+</div>
+{% endif %}
+
+<p>You can manage your product listings, check messages, and coordinate deliveries.</p>
+<h3>Quick Actions</h3>
+<a href="{% url 'product_create' %}">➕ Post a New Crop</a><br>
+<a href="{% url 'inbox' %}">📥 View Inbox</a><br>
+<a href="{% url 'product_list' %}">View Marketplace</a>
+
+<h3>🧺 My Listings</h3>
+<ul>
+  {% for product in my_products %}
+    <li>
+      <strong>{{ product.title }}</strong> — ₦{{ product.price }}<br>
+      {{ product.quantity }} units at {{ product.location }}<br>
+      Posted on {{ product.date_posted|date:"M d, Y" }}
+    </li>
+  {% empty %}
+    <li>You have not posted any crops yet.</li>
+  {% endfor %}
+</ul>
+
+<h3>🌾 Recent Marketplace Activity</h3>
+<ul>
+  {% for product in recent_marketplace %}
+    <li>
+      <strong>{{ product.title }}</strong> by {{ product.farmer.username }} — ₦{{ product.price }}
+    </li>
+  {% empty %}
+    <li>No recent marketplace activity.</li>
+  {% endfor %}
+</ul>
+
+<h3>💡 Tips</h3>
+<ul>
+  <li>Respond to buyer messages quickly to secure sales.</li>
+  <li>Post clear, high-quality photos of your crops to attract buyers.</li>
+</ul>
+{% endblock %}

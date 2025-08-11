@@ -1,0 +1,39 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<h2>Welcome {{ request.user.username }} (Logistics Agent)</h2>
+<p>Below are your assigned deliveries.</p>
+
+<table border="1">
+  <tr>
+    <th>Product</th>
+    <th>Farmer</th>
+    <th>Pickup</th>
+    <th>Destination</th>
+    <th>Status</th>
+    <th>Action</th>
+  </tr>
+  {% for delivery in deliveries %}
+  <tr>
+    <td>{{ delivery.product.title }}</td>
+    <td>{{ delivery.farmer.username }}</td>
+    <td>{{ delivery.pickup_location }}</td>
+    <td>{{ delivery.destination }}</td>
+    <td>{{ delivery.status }}</td>
+    <td>
+      {% if delivery.status == 'accepted' %}
+        <a href="{% url 'update_delivery_status' delivery.id 'in_transit' %}">Mark In Transit</a>
+      {% elif delivery.status == 'in_transit' %}
+        <a href="{% url 'update_delivery_status' delivery.id 'delivered' %}">Mark Delivered</a>
+      {% else %}
+        Complete
+      {% endif %}
+    </td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="6">No deliveries assigned yet.</td></tr>
+  {% endfor %}
+</table>
+
+{% endblock %}

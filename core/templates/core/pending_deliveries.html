@@ -1,0 +1,18 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<h2>Pending Deliveries</h2>
+<ul>
+  {% for delivery in deliveries %}
+    <li>
+      <strong>{{ delivery.product.title }}</strong><br>
+      From: {{ delivery.pickup_location }}<br>
+      To: {{ delivery.destination }}<br>
+      Requested by: {{ delivery.farmer.username }}
+      <a href="{% url 'accept_delivery' delivery.id %}">Accept</a>
+    </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

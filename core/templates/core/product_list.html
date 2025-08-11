@@ -1,0 +1,82 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<h2>Marketplace</h2>
+{% if user.is_authenticated %}
+  <a class="btn btn-success mb-3" href="{% url 'product_create' %}">Post a Product</a>
+{% else %}
+    <p><a href="{% url 'login' %}">Log in</a> to post your product.</p>
+{% endif %}
+
+{% if weather %}
+ <div class="alert alert-info d-flex flex-column flex-md-row align-items-center gap-3">
+    <div>
+      <img src="http://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" alt="weather icon" width="60">
+    </div>
+    <div>
+      <strong>Weather in {{ location|default:"Oyo State" }}:</strong><br>
+      {{ weather.description|title }}, {{ weather.temperature }}°C
+    </div>
+  </div>
+{% endif %}
+
+<select name="category">
+  <option value="">All Crops</option>
+  <option value="Tomato">Tomato</option>
+  <option value="Maize">Maize</option>
+  <option value="Pepper">Pepper</option>
+  <option value="Yam">Yam</option>
+</select>
+
+<form method="GET">
+  <input type="text" name="q" placeholder="Search by crop" value="{{ query }}">
+  <input type="text" name="location" placeholder="Filter by location" value="{{ location }}">
+  <input type="number" step="0.01" name="min_price" placeholder="Min price" value="{{ min_price }}">
+  <input type="number" step="0.01" name="max_price" placeholder="Max price" value="{{ max_price }}">
+  <button type="submit">Search</button>
+</form>
+
+<hr>
+
+<ul class="list-group">
+  {% for product in products %}
+    <li>
+      <strong>{{ product.title }}</strong> - ₦{{ product.price }}<br>
+      {{ product.description }}<br>
+      Quantity: {{ product.quantity }}<br>
+      Location: {{ product.location }}<br>
+      Posted by: {{ product.farmer.username }} on {{ product.date_posted|date:"M d, Y - H:i A" }}
+
+      {% if product.image %}
+        <br><img src="{{ product.image.url }}" width="100">
+      {% endif %}
+
+      {% with product.deliveryrequest_set.first as delivery %}
+        {% if delivery %}
+          <p><strong>Delivery Status:</strong> {{ delivery.status|capfirst }}</p>
+        {% endif %}
+      {% endwith %}
+
+    </li>
+    <hr>
+  {% empty %}
+    <p>No products listed yet.</p>
+  {% endfor %}
+</ul>
+
+<nav>
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+    {% endif %}
+
+    <li class="page-item disabled"><span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span></li>
+
+    {% if page_obj.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+    {% endif %}
+  </ul>
+</nav>
+
+{% endblock %}

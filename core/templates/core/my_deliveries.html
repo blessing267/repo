@@ -1,0 +1,28 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<h2>My Delivery Requests</h2>
+
+<table border="1">
+  <tr>
+    <th>Product</th>
+    <th>Pickup</th>
+    <th>Destination</th>
+    <th>Status</th>
+    <th>Logistics Agent</th>
+  </tr>
+  {% for delivery in deliveries %}
+  <tr>
+    <td>{{ delivery.product.title }}</td>
+    <td>{{ delivery.pickup_location }}</td>
+    <td>{{ delivery.destination }}</td>
+    <td>{{ delivery.status|capfirst }}</td>
+    <td>{{ delivery.logistics_agent.username if delivery.logistics_agent else 'Not Assigned' }}</td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="5">You haven't made any delivery requests yet.</td></tr>
+  {% endfor %}
+</table>
+
+{% endblock %}
