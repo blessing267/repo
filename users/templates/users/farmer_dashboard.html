@@ -1,51 +1,90 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
+<div class="container my-4">
+    <h2 class="mb-4">👨‍🌾 Farmer Dashboard</h2>
+    <p class="lead">Welcome, <strong>{{ request.user.username }}</strong>! Manage your products, messages, and deliveries in one place.</p>
 
-<h2>Farmer Dashboard</h2>
-<p>Welcome, {{ request.user.username }}!</p>
+    {% if weather %}
+    <div class="card mb-4 shadow-sm" style="max-width: 350px;">
+        <div class="card-body text-center">
+            <h5 class="card-title">🌤 Weather in {{ location }}</h5>
+            <img src="http://openweathermap.org/img/wn/{{ weather.icon }}.png" alt="Weather icon" class="mb-2">
+            <p class="mb-0"><strong>{{ weather.temp }}°C</strong> - {{ weather.description|title }}</p>
+        </div>
+    </div>
+    {% endif %}
 
-{% if weather %}
-<div style="background:#eef; padding:10px; border-radius:5px; width:250px;">
-  <h4>🌤 Weather in {{ location }}</h4>
-  <p><img src="http://openweathermap.org/img/wn/{{ weather.icon }}.png" alt="Weather icon">
-     {{ weather.temp }}°C - {{ weather.description }}</p>
+    <form method="get" class="mb-3">
+        <input type="text" name="city" class="form-control mb-2" placeholder="Enter city" value="{{ location }}">
+        <button type="submit" class="btn btn-primary w-100">Check Weather</button>
+    </form>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <a href="{% url 'product_create' %}" class="btn btn-success w-100 mb-2">➕ Post a New Crop</a>
+        </div>
+        <div class="col-md-3">
+            <a href="{% url 'product_list' %}" class="btn btn-success w-100 mb-2">🛒 Browse Marketplace</a>
+        </div>
+        <div class="col-md-3">
+            <a href="{% url 'inbox' %}" class="btn btn-primary w-100 mb-2">📨 View Inbox ({{ unread_messages }})</a>
+        </div>
+        <div class="col-md-3">
+            <a href="{% url 'my_deliveries' %}" class="btn btn-info w-100 mb-2">
+                🚚 My Deliveries
+            </a>
+        </div>
+    </div> 
+
+    <!-- My Listings -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-success text-white">
+            🧺 My Listings
+        </div>
+        <ul class="list-group list-group-flush">
+            {% for product in my_products %}
+                <li class="list-group-item">
+                    <h6 class="mb-1">{{ product.title }} — <span class="text-success">₦{{ product.price }}</span></h6>
+                    <small>{{ product.quantity }} units at {{ product.location }} • Posted on {{ product.date_posted|date:"M d, Y" }}</small>
+                    
+                    {% if product.id %}
+                        <a href="{% url 'request_delivery_with_product' product.id %}" 
+                           class="btn btn-sm btn-outline-primary mt-2">
+                            🚚 Request Delivery
+                        </a>
+                    {% endif %}
+                </li>
+            {% empty %}
+                <li class="list-group-item text-muted">You have not posted any crops yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Recent Marketplace Activity -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-warning">
+            🌾 Recent Marketplace Activity
+        </div>
+        <ul class="list-group list-group-flush">
+            {% for product in recent_marketplace %}
+                <li class="list-group-item">
+                    <strong>{{ product.title }}</strong> by {{ product.farmer.username }} — <span class="text-success">₦{{ product.price }}</span>
+                </li>
+            {% empty %}
+                <li class="list-group-item text-muted">No recent marketplace activity.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Tips -->
+    <div class="alert alert-info">
+        <h5 class="mb-2">💡 Tips</h5>
+        <ul class="mb-0">
+            <li>Respond to buyer messages quickly to secure sales.</li>
+            <li>Post clear, high-quality photos of your crops to attract buyers.</li>
+        </ul>
+    </div>
 </div>
-{% endif %}
-
-<p>You can manage your product listings, check messages, and coordinate deliveries.</p>
-<h3>Quick Actions</h3>
-<a href="{% url 'product_create' %}">➕ Post a New Crop</a><br>
-<a href="{% url 'inbox' %}">📥 View Inbox</a><br>
-<a href="{% url 'product_list' %}">View Marketplace</a>
-
-<h3>🧺 My Listings</h3>
-<ul>
-  {% for product in my_products %}
-    <li>
-      <strong>{{ product.title }}</strong> — ₦{{ product.price }}<br>
-      {{ product.quantity }} units at {{ product.location }}<br>
-      Posted on {{ product.date_posted|date:"M d, Y" }}
-    </li>
-  {% empty %}
-    <li>You have not posted any crops yet.</li>
-  {% endfor %}
-</ul>
-
-<h3>🌾 Recent Marketplace Activity</h3>
-<ul>
-  {% for product in recent_marketplace %}
-    <li>
-      <strong>{{ product.title }}</strong> by {{ product.farmer.username }} — ₦{{ product.price }}
-    </li>
-  {% empty %}
-    <li>No recent marketplace activity.</li>
-  {% endfor %}
-</ul>
-
-<h3>💡 Tips</h3>
-<ul>
-  <li>Respond to buyer messages quickly to secure sales.</li>
-  <li>Post clear, high-quality photos of your crops to attract buyers.</li>
-</ul>
 {% endblock %}

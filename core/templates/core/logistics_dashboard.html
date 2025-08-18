@@ -1,39 +1,144 @@
 {% extends 'core/base.html' %}
+{% load static %}
 
 {% block content %}
+<div class="container my-4">
+    <div class="p-4 bg-light rounded shadow-sm">
+        <h2 class="fw-bold">Welcome, {{ request.user.username }} <small class="text-muted">(Logistics Agent)</small></h2>
+        <p class="mb-0">Manage your deliveries below.</p>
+    </div>
 
-<h2>Welcome {{ request.user.username }} (Logistics Agent)</h2>
-<p>Below are your assigned deliveries.</p>
+    <!-- Action Buttons -->
+    <div class="mb-4 d-flex flex-wrap gap-2">
+        <a href="{% url 'product_list' %}" class="btn btn-success flex-grow-1">🛒 Browse Marketplace</a>
+        <a href="{% url 'inbox' %}" class="btn btn-primary flex-grow-1">📥 View Inbox ({{ unread_messages }})</a>
+    </div>
 
-<table border="1">
-  <tr>
-    <th>Product</th>
-    <th>Farmer</th>
-    <th>Pickup</th>
-    <th>Destination</th>
-    <th>Status</th>
-    <th>Action</th>
-  </tr>
-  {% for delivery in deliveries %}
-  <tr>
-    <td>{{ delivery.product.title }}</td>
-    <td>{{ delivery.farmer.username }}</td>
-    <td>{{ delivery.pickup_location }}</td>
-    <td>{{ delivery.destination }}</td>
-    <td>{{ delivery.status }}</td>
-    <td>
-      {% if delivery.status == 'accepted' %}
-        <a href="{% url 'update_delivery_status' delivery.id 'in_transit' %}">Mark In Transit</a>
-      {% elif delivery.status == 'in_transit' %}
-        <a href="{% url 'update_delivery_status' delivery.id 'delivered' %}">Mark Delivered</a>
-      {% else %}
-        Complete
-      {% endif %}
-    </td>
-  </tr>
-  {% empty %}
-  <tr><td colspan="6">No deliveries assigned yet.</td></tr>
-  {% endfor %}
-</table>
+    <!-- Dashboard Summary Cards -->
+    <div class="row g-3 mb-4 mt-3">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Total Deliveries</h5>
+                    <p class="card-text fs-3">{{ total_deliveries }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-dark bg-warning shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Pending</h5>
+                    <p class="card-text fs-3">{{ pending_deliveries }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-info shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">In Transit</h5>
+                    <p class="card-text fs-3">{{ in_transit_deliveries }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Delivered</h5>
+                    <p class="card-text fs-3">{{ delivered_deliveries }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- Assigned Pending Deliveries (to Accept) -->
+    <h4 class="mt-4">📝 Available Deliveries to Accept</h4>
+    {% with assigned_pending=assigned_deliveries|dictsort:"id" %}
+    {% if assigned_pending %}
+    <div class="table-responsive mb-4">
+        <table class="table table-hover table-bordered align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Product</th>
+                    <th>Farmer</th>
+                    <th>Pickup</th>
+                    <th>Destination</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for delivery in assigned_deliveries %}
+                    {% if delivery.status == 'pending' %}
+                    <tr>
+                        <td>{{ delivery.product.title }}</td>
+                        <td>{{ delivery.farmer.username }}</td>
+                        <td>{{ delivery.pickup_location }}</td>
+                        <td>{{ delivery.destination }}</td>
+                        <td>
+                            <a href="{% url 'update_delivery_status' delivery.id 'accepted' %}" 
+                               class="btn btn-sm btn-success">Accept</a>
+                        </td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <p class="text-muted">No pending deliveries available to accept.</p>
+    {% endif %}
+    {% endwith %}
+
+    <!-- All Assigned Deliveries -->
+    <h4 class="mt-4">📦 My Assigned Deliveries</h4>
+    {% if assigned_deliveries %}
+    <div class="table-responsive mb-5">
+        <table class="table table-hover table-bordered align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Product</th>
+                    <th>Farmer</th>
+                    <th>Pickup</th>
+                    <th>Destination</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for delivery in assigned_deliveries %}
+                <tr>
+                    <td>{{ delivery.product.title }}</td>
+                    <td>{{ delivery.farmer.username }}</td>
+                    <td>{{ delivery.pickup_location }}</td>
+                    <td>{{ delivery.destination }}</td>
+                    <td>
+                        {% if delivery.status == 'accepted' %}
+                            <span class="badge bg-info text-dark">Accepted</span>
+                        {% elif delivery.status == 'in_transit' %}
+                            <span class="badge bg-warning text-dark">In Transit</span>
+                        {% elif delivery.status == 'delivered' %}
+                            <span class="badge bg-success">Delivered</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Pending</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if delivery.status == 'accepted' %}
+                            <a href="{% url 'update_delivery_status' delivery.id 'in_transit' %}" 
+                               class="btn btn-sm btn-primary">Mark In Transit</a>
+                        {% elif delivery.status == 'in_transit' %}
+                            <a href="{% url 'update_delivery_status' delivery.id 'delivered' %}" 
+                               class="btn btn-sm btn-success">Mark Delivered</a>
+                        {% else %}
+                            <span class="text-muted">Complete</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <p class="text-muted">You have no assigned deliveries yet.</p>
+    {% endif %}
+</div>
 {% endblock %}

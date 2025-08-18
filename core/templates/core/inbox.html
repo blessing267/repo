@@ -1,20 +1,43 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
+<div class="container my-4">
+    <h2 class="mb-4">📥 Your Inbox</h2>
 
-<h2>Your Inbox</h2>
-<a href="{% url 'send_message' %}">Send New Message</a>
-<ul>
-  {% for msg in messages %}
-    <li>
-      <strong>From:</strong> {{ msg.sender.username }}<br>
-      <strong>Message:</strong> {{ msg.body }}<br>
-      <strong>Sent at:</strong> {{ msg.timestamp|date:"M d, Y H:i" }}
-    </li>
-    <hr>
-  {% empty %}
-    <li>No messages found.</li>
-  {% endfor %}
-</ul>
+    <!-- Action Buttons -->
+    <div class="mb-4 d-flex gap-2">
+        <a href="{% url 'send_message' %}" class="btn btn-success">
+            ✉️ Send New Message
+        </a>
+        <a href="{% url 'sent_messages' %}" class="btn btn-primary">
+            📤 Sent Messages
+        </a>
+    </div>
 
+    <!-- Messages List -->
+    {% if inbox_messages %}
+        <div class="d-flex flex-column gap-3">
+            {% for msg in inbox_messages %}
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            From: <span class="fw-bold">{{ msg.sender.username }}</span>
+                        </h6>
+                        <p class="card-text">{{ msg.body }}</p>
+                    </div>
+                    <div class="card-footer text-end text-muted small">
+                        Sent at: {{ msg.timestamp|date:"M d, Y - H:i A" }}
+                        {% if not msg.is_read %}
+                            <span class="badge bg-warning text-dark ms-2">New</span>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            You have no messages yet.
+        </div>
+    {% endif %}
+</div>
 {% endblock %}

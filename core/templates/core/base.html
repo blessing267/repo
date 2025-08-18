@@ -1,58 +1,110 @@
-<!-- templates/base.html -->
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>FarmMarket</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'core/styles.css' %}">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="{% static 'core/styles.css' %}" />
+
+  <!-- Google Fonts (optional for modern feel) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: white;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .navbar.custom-green, footer.custom-green {
+    background-color: #198754 !important;
+    }
+  </style>
 </head>
 <body>
-    <header class="d-flex justify-content-between align-items-center p-3 border-bottom">
-        <a href="{% url 'home' %}" class="d-flex align-items-center text-decoration-none text-dark">
-            <img src="{% static 'core/images/logo.png' %}" alt="Logo" width="40" height="50" class="me-2">
-            <h1 class="h4 mb-0">FARMMARKET</h1>
+<header>
+<nav class="navbar navbar-expand-lg custom-green">
+    <div class="container">
+        <!-- Logo + Brand -->
+        <a class="navbar-brand fw-bold d-flex align-items-center" href="{% url 'home' %}">
+            <img src="{% static 'core/images/logo.png' %}" alt="Logo" width="40" height="40" class="me-2">
+            FARMMARKET
         </a>
-    
-        <div class="d-flex align-items-center">
+
+        <!-- Mobile Menu Button -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navigation Links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                {% if user.is_authenticated %}
+                    {% if user.profile.role == 'logistics' %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'logistics_dashboard' %}">{% trans "Dashboard" %}</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'my_deliveries' %}">{% trans "My Deliveries" %}</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'pending_deliveries' %}">{% trans "Pending Deliveries" %}</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'inbox' %}">{% trans "Messages" %}</a></li>
+                    {% elif user.profile.role == 'farmer' %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'farmer_dashboard' %}">{% trans "Dashboard" %}</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'product_list' %}">{% trans "Marketplace" %}</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'product_create' %}">{% trans "Post Product" %}</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'my_deliveries' %}">{% trans "My Deliveries" %}</a></li>  
+                    {% elif user.profile.role == 'buyer' %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'buyer_dashboard' %}">{% trans "Dashboard" %}</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'product_list' %}">{% trans "Marketplace" %}</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'inbox' %}">{% trans "Message" %}</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'my_deliveries' %}">{% trans "My Deliveries" %}</a></li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">{% trans "Home" %}</a></li>
+                    {% endif %}
+                {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">{% trans "Login" %}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">{% trans "Register" %}</a></li>
+                {% endif %}
+            </ul>
+
             {% if user.is_authenticated %}
-                <span class="navbar-text me-3">Welcome, {{ user.username }}</span>
-                <a class="btn btn-outline-danger" href="{% url 'logout' %}">Logout</a>
-            {% else %}
-                <a class="btn btn-outline-primary me-2" href="{% url 'login' %}">Login</a>
-                <a class="btn btn-outline-success" href="{% url 'register' %}">Register</a>
+                <ul class="navbar-nav">
+                    <li class="nav-item me-3">
+                        <span class="navbar-text">
+                            {% trans "Welcome" %}, <strong>{{ user.username }}</strong>
+                        </span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-success btn-sm border-light" href="{% url 'logout' %}">{% trans "Logout" %}</a>
+                    </li>
+                </ul>
             {% endif %}
         </div>
-   </header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
-        <div class="container-fluid">
-            <div class="navbar-nav">
-                <a href="{% url 'home' %}">Home</a> |
-                <a href="{% url 'product_list' %}">Marketplace</a> |
-                <a href="{% url 'product_create' %}">Post product</a> |
-                <a href="{% url 'logout' %}">Logout</a>
-            </div>
-        </div>
-    </nav>
-
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endif %}
-
-    <div class="container">
-        {% block content %}
-        <!-- Page-specific content will go here -->
-        {% endblock %}
     </div>
+</nav>
 
-    <footer class="text-center mt-5 mb-3 text-muted">
-        <hr>
-        <small>&copy; 2025 FarmMarket</small>
-    </footer>
+  </header>
+
+  <main class="container mt-4">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+    
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="text-center mt-5 mb-3 text-light custom-green p-3">
+    <small>&copy; 2025 FarmMarket. {% trans "All rights reserved." %}</small>
+</footer>
+
 </body>
 </html>

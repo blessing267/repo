@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import UserRegisterForm
+from core.forms import DeliveryRequestForm
 from .models import Profile
 from core.models import Product, Message
 from django.contrib.auth import authenticate, login, logout
@@ -15,8 +16,10 @@ def register_view(request):
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
-            role = form.cleaned_data.get('role')
-            Profile.objects.create(user=user, role=role)
+            role = form.cleaned_data.get('role')  # get role from form first
+            user.profile.role = role              # then assign it
+            user.profile.save()
+            
             messages.success(request, "Account created successfully! You can now log in.")
             return redirect('login')
     else:
@@ -65,7 +68,8 @@ def farmer_dashboard(request):
     recent_marketplace = Product.objects.exclude(farmer=request.user).order_by('-date_posted')[:5]
     
     # Weather Data
-    location = request.user.profile.location or "Ibadan"  # default
+    location = request.GET.get('city') or request.user.profile.location or "Ibadan"
+    
     weather = None
     try:
         url = f"http://api.openweathermap.org/data/2.5/weather?q={location}&appid={settings.OPENWEATHER_API_KEY}&units=metric"
@@ -80,12 +84,24 @@ def farmer_dashboard(request):
     except:
         pass
 
+    if request.method == 'POST':
+        delivery_form = DeliveryRequestForm(request.POST)
+        if delivery_form.is_valid():
+            delivery = delivery_form.save(commit=False)
+            delivery.farmer = request.user
+            delivery.save()
+            messages.success(request, "Delivery request submitted!")
+            return redirect('farmer_dashboard')
+    else:
+        delivery_form = DeliveryRequestForm()
+
     return render(request, 'users/farmer_dashboard.html', {
         'my_products': my_products,
         'unread_messages': unread_messages,
         'recent_marketplace': recent_marketplace,
         'weather': weather,
-        'location': location
+        'location': location,
+        'delivery_form': delivery_form,
     })
 
 @login_required
@@ -94,7 +110,7 @@ def buyer_dashboard(request):
     unread_messages = Message.objects.filter(recipient=request.user, is_read=False).count()
     
     # Weather Data
-    location = request.user.profile.location or "Ibadan"  # default location if not set
+    location = request.GET.get('city') or request.user.profile.location or "Ibadan"
     weather = None
     try:
         url = f"http://api.openweathermap.org/data/2.5/weather?q={location}&appid={settings.OPENWEATHER_API_KEY}&units=metric"
@@ -109,9 +125,25 @@ def buyer_dashboard(request):
     except:
         pass
     
+    # Delivery Request
+    if request.method == 'POST':
+        delivery_form = DeliveryRequestForm(request.POST)
+        if delivery_form.is_valid():
+            delivery = delivery_form.save(commit=False)
+            delivery.requester = request.user  # or .farmer for farmer
+            delivery.save()
+            messages.success(request, "Delivery request submitted!")
+            return redirect('buyer_dashboard')
+    else:
+        delivery_form = DeliveryRequestForm()
+
     return render(request, 'users/buyer_dashboard.html', {
         'recent_products': recent_products,
         'unread_messages': unread_messages,
         'weather': weather,
-        'location': location
+        'location': location,
+        'delivery_form': delivery_form,
     })
+
+def password_reset(request):
+    return render(request, 'users/password_reset.html')

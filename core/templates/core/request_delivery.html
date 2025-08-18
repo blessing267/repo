@@ -1,12 +1,15 @@
 {% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
-
-<h2>Request Delivery</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Request</button>
-</form>
-
+<div class="container mt-4">
+    <h2>🚚 Request a Delivery</h2>
+    <p>Please fill in the details below to request a delivery.</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-success">📦 Submit Request</button>
+    </form>
+</div>
 {% endblock %}

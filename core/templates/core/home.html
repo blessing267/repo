@@ -1,32 +1,40 @@
 {% extends 'core/base.html' %}
+{% load i18n %}
 
 {% block content %}
 <div style="text-align:center; padding:50px;">
-    <h1>🌾 Welcome to FarmMarket</h1>
-    <p>Connecting farmers and buyers directly for fresh, affordable produce.</p>
+    <h1>🌾 {% trans "Welcome to FarmMarket" %}</h1>
+    <p>{% trans "Connecting farmers and buyers directly for fresh, affordable produce." %}</p>
 
-    <a href="{% url 'login' %}" class="btn btn-primary" style="margin:5px;">Login</a>
-    <a href="{% url 'register' %}" class="btn btn-success" style="margin:5px;">Register</a>
+    {% if user.is_authenticated %}
+        <p>{% trans "Hello" %}, {{ user.username }} 👋</p>
+        <a href="{% url 'dashboard' %}" class="btn btn-primary" style="margin:5px;">{% trans "Go to Dashboard" %}</a>
+        <a href="{% url 'logout' %}" class="btn btn-danger" style="margin:5px;">{% trans "Logout" %}</a>
+    {% else %}
+        <a href="{% url 'login' %}" class="btn btn-primary" style="margin:5px;">{% trans "Login" %}</a>
+        <a href="{% url 'register' %}" class="btn btn-success" style="margin:5px;">{% trans "Register" %}</a>
+    {% endif %}
+
 
     <hr style="margin:40px 0;">
 
-    <h2>Why Use FarmMarket?</h2>
+    <h2>{% trans "Why Use FarmMarket?" %}</h2>
     <div style="display:flex; justify-content:center; gap:40px; flex-wrap:wrap;">
         <div style="width:250px;">
-            <h3>🛒 Direct Marketplace</h3>
-            <p>Farmers post their crops for sale and buyers purchase directly.</p>
+            <h3>🛒 {% trans "Direct Marketplace" %}</h3>
+            <p>{% trans "Farmers post their crops for sale and buyers purchase directly." %}</p>
         </div>
         <div style="width:250px;">
-            <h3>🌤 Weather Updates</h3>
-            <p>Stay informed with real-time weather forecasts for your farm or region.</p>
+            <h3>🌤 {% trans "Weather Updates" %}</h3>
+            <p>{% trans "Stay informed with real-time weather forecasts for your farm or region." %}</p>
         </div>
         <div style="width:250px;">
-            <h3>💬 Messaging System</h3>
-            <p>Securely communicate between buyers and farmers to negotiate and arrange deliveries.</p>
+            <h3>💬 {% trans "Messaging System" %}</h3>
+            <p>{% trans "Securely communicate between buyers and farmers to negotiate and arrange deliveries." %}</p>
         </div>
     </div>
 
     <hr style="margin:40px 0;">
-    <p><em>FarmMarket — Fresh from the farm to your table.</em></p>
+    <p><em>{% trans "FarmMarket — Fresh from the farm to your table." %}</em></p>
 </div>
 {% endblock %}

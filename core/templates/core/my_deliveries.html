@@ -1,28 +1,106 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
+<div class="container my-4">
+    <h2 class="mb-4">{{ title }}</h2>
 
-<h2>My Delivery Requests</h2>
-
-<table border="1">
-  <tr>
-    <th>Product</th>
-    <th>Pickup</th>
-    <th>Destination</th>
-    <th>Status</th>
-    <th>Logistics Agent</th>
-  </tr>
-  {% for delivery in deliveries %}
-  <tr>
-    <td>{{ delivery.product.title }}</td>
-    <td>{{ delivery.pickup_location }}</td>
-    <td>{{ delivery.destination }}</td>
-    <td>{{ delivery.status|capfirst }}</td>
-    <td>{{ delivery.logistics_agent.username if delivery.logistics_agent else 'Not Assigned' }}</td>
-  </tr>
-  {% empty %}
-  <tr><td colspan="5">You haven't made any delivery requests yet.</td></tr>
-  {% endfor %}
-</table>
-
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-striped mb-0">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Pickup</th>
+                            <th>Destination</th>
+                            <th>Date Requested</th>
+                            <th>Status</th>
+                            <th>
+                                {% if role == 'farmer' %}
+                                    Buyer
+                                {% elif role == 'buyer' %}
+                                    Farmer
+                                {% else %}
+                                    Farmer / Buyer
+                                {% endif %}
+                            </th>
+                            <th>Logistics Agent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for delivery in deliveries %}
+                        <tr>
+                            <td>{{ delivery.product.title }}</td>
+                            <td>{{ delivery.product.quantity }}</td>
+                            <td>{{ delivery.pickup_location }}</td>
+                            <td>{{ delivery.destination }}</td>
+                            <td>{{ delivery.date_requested|date:"M d, Y" }}</td>
+                            <td>
+                                <span class="badge 
+                                    {% if delivery.status == 'pending' %}bg-warning
+                                    {% elif delivery.status == 'accepted' %}bg-primary
+                                    {% elif delivery.status == 'in_transit' %}bg-info
+                                    {% elif delivery.status == 'delivered' %}bg-success
+                                    {% elif delivery.status == 'cancelled' %}bg-danger
+                                    {% else %}bg-secondary
+                                    {% endif %}">
+                                    {{ delivery.status|capfirst }}
+                                </span>
+                            </td>
+                            <td>
+                                {% if role == 'farmer' %}
+                                    {% if delivery.buyer %}
+                                      {{ delivery.buyer.username }}
+                                    {% else %}
+                                      Not Assigned
+                                    {% endif %}
+                                {% elif role == 'buyer' %}
+                                    {% if delivery.farmer %}
+                                      {{ delivery.farmer.username }}
+                                    {% else %}
+                                      Not Assigned
+                                    {% endif %}
+                                {% else %}
+                                    {% if delivery.farmer %}
+                                      {{ delivery.farmer.username }}
+                                    {% else %}
+                                      Unknown
+                                    {% endif %}
+                                    /
+                                    {% if delivery.buyer %}
+                                      {{ delivery.buyer.username }}
+                                    {% else %}
+                                      Unknown
+                                    {% endif %}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if delivery.logistics_agent %}
+                                    {{ delivery.logistics_agent.username }}
+                                {% else %}
+                                    <span class="text-muted">Not Assigned</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if role == 'farmer' and delivery.farmer == request.user and delivery.status != 'delivered' and delivery.status != 'cancelled' %}
+                                    <a href="{% url 'update_delivery_status' delivery.id 'cancelled' %}" class="btn btn-sm btn-danger">Cancel</a>
+                                {% elif role == 'buyer' and delivery.buyer == request.user and delivery.status != 'delivered' and delivery.status != 'cancelled' %}
+                                    <a href="{% url 'update_delivery_status' delivery.id 'cancelled' %}" class="btn btn-sm btn-danger">Cancel</a>
+                                {% else %}
+                                    <span class="text-muted">—</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center text-muted">You haven't made any delivery requests yet.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

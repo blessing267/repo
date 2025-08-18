@@ -1,12 +1,21 @@
 {% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
-
-<h2>Post Your Crop for Sale</h2>
-<form method="POST" enctype="multipart/form-data">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Post</button>
-</form>
-
+<div class="container my-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-success text-white">
+            <h4 class="mb-0">🌱 Post Your Crop for Sale</h4>
+        </div>
+        <div class="card-body">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-success w-100">
+                    ➕ Post Crop
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

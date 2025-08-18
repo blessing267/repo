@@ -1,14 +1,45 @@
 {% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+  <div class="card shadow-lg rounded-4" style="width: 100%; max-width: 500px;">
+    
+    <!-- Card Header -->
+    <div class="card-header text-center text-white py-4 rounded-top-4" style="background-color: #198754;">
+      <h2 class="mb-0">Login</h2>
+      <small class="d-block mt-1">Please enter your login details</small>
+    </div>
+    
+    <!-- Card Body -->
+    <div class="card-body p-4">
 
-<h2>Login</h2>
-<form method="POST">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Login</button>
-</form>
+      <!-- Display Django messages -->
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} mb-3">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
 
-<p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+      <!-- Login Form -->
+      <form method="POST" novalidate>
+        {% csrf_token %}
+        {{ form|crispy }}
 
+        <div class="d-flex justify-content-between mb-3">
+          <!-- Forgot Password link displayed on page -->
+          <small><a href="{% url 'password_reset' %}">Forgot Password?</a></small>
+        </div>
+
+        <button type="submit" class="btn btn-success btn-lg w-100 mt-2">Login</button>
+      </form>
+
+      <!-- Registration Link -->
+      <p class="mt-4 text-center mb-0">
+        Don't have an account? <a href="{% url 'register' %}">Register here</a>
+      </p>
+
+    </div>
+  </div>
+</div>
 {% endblock %}

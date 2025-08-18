@@ -1,0 +1,37 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">Sent Messages</h2>
+        <div>
+            <a href="{% url 'send_message' %}" class="btn btn-primary me-2">📤 New Message</a>
+            <a href="{% url 'inbox' %}" class="btn btn-secondary">📥 Inbox</a>
+        </div>
+    </div>
+
+    {% if messages_list %}
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            {% for msg in messages_list %}
+                <div class="col">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body">
+                            <h6 class="card-subtitle mb-2 text-muted">To: {{ msg.recipient.username }}</h6>
+                            <p class="card-text">{{ msg.body }}</p>
+                        </div>
+                        <div class="card-footer text-muted small">
+                            <small>Sent on {{ msg.timestamp|date:"M d, Y - H:i A" }}</small>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            You have not sent any messages yet.
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}

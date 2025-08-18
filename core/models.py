@@ -8,6 +8,14 @@ CROP_CHOICES = [
     ('Maize', 'Maize'),
     ('Pepper', 'Pepper'),
     ('Yam', 'Yam'),
+    ('Cassava', 'Cassava'),
+    ('Rice', 'Rice'),
+    ('Okra', 'Okra'),
+    ('Onion', 'Onion'),
+    ('Cucumber', 'Cucumber'),
+    ('Carrot', 'Carrot'),
+    ('Eggplant', 'Eggplant'),
+    ('Watermelon', 'Watermelon'),
 ]
 
 class Product(models.Model):
@@ -16,7 +24,8 @@ class Product(models.Model):
     description = models.TextField(_("Description"))
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.PositiveIntegerField()
-    location = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
+    state = models.CharField(max_length=100, default="Oyo State")
     category = models.CharField(max_length=20, choices=CROP_CHOICES, default='Tomato') 
     image = models.ImageField(upload_to='product_images/', blank=True, null=True)
     date_posted = models.DateTimeField(auto_now_add=True)
@@ -43,14 +52,17 @@ class DeliveryRequest(models.Model):
         ('accepted', 'Accepted'),
         ('in_transit', 'In Transit'),
         ('delivered', 'Delivered'),
+        ('cancelled', 'Cancelled'),
     ] 
     
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    farmer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='delivery_requests')
+    buyer = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name="buyer_delivery_requests")
+    farmer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="farmer_delivery_requests")
     logistics_agent = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='deliveries_handled')
     pickup_location = models.CharField(max_length=100)
     destination = models.CharField(max_length=100)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    requested_for_group = models.BooleanField(default=False)
     date_requested = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

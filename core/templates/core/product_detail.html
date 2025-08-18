@@ -1,0 +1,31 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="card shadow-sm">
+        <div class="row g-0">
+            <div class="col-md-4 text-center p-3">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" class="img-fluid rounded" alt="{{ product.title }}">
+                {% else %}
+                    <img src="https://via.placeholder.com/300x200.png?text=No+Image" class="img-fluid rounded" alt="No image available">
+                {% endif %}
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h2 class="card-title">{{ product.title }}</h2>
+                    <p class="card-text"><strong>Price:</strong> ₦{{ product.price }}</p>
+                    <p class="card-text"><strong>Quantity:</strong> {{ product.quantity }}</p>
+                    <p class="card-text"><strong>Location:</strong> {{ product.city }}, {{ product.state }}</p>
+                    <p class="card-text"><strong>Category:</strong> {{ product.category }}</p>
+                    <p class="card-text"><strong>Description:</strong> {{ product.description }}</p>
+                    <p class="card-text"><small class="text-muted">Posted by: {{ product.farmer.username }} on {{ product.date_posted|date:"M d, Y - H:i A" }}</small></p>
+                    <a href="{% url 'buyer_dashboard' %}" class="btn btn-outline-primary mt-3">← Back to Products</a>
+                    <a href="{% url 'product_list' %}" class="btn btn-outline-primary mt-3"> Go to Marketplace →</a>
+                    <a href="{% url 'send_message' %}" class="btn btn-outline-primary mt-3"> Message Farmer</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

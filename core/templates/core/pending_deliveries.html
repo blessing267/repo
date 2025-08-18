@@ -1,7 +1,6 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-
 <h2>Pending Deliveries</h2>
 <ul>
   {% for delivery in deliveries %}
@@ -9,10 +8,16 @@
       <strong>{{ delivery.product.title }}</strong><br>
       From: {{ delivery.pickup_location }}<br>
       To: {{ delivery.destination }}<br>
-      Requested by: {{ delivery.farmer.username }}
-      <a href="{% url 'accept_delivery' delivery.id %}">Accept</a>
+      Requested by: {{ delivery.farmer.username }}<br>
+
+      {% if delivery.logistics_agent %}
+          <span class="text-muted">Assigned to {{ delivery.logistics_agent.username }}</span>
+      {% else %}
+          <a href="{% url 'update_delivery_status' delivery.id 'accepted' %}" class="btn btn-sm btn-success">Accept</a>
+      {% endif %}
     </li>
+  {% empty %}
+    <li class="text-muted">🚚 No pending deliveries at the moment. Check back later!</li>
   {% endfor %}
 </ul>
-
 {% endblock %}

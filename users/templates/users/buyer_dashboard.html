@@ -1,36 +1,72 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
+<div class="container my-4">
 
-<h2>Buyer Dashboard</h2>
-<p>Welcome, {{ request.user.username }}! You can browse available crops, message farmers, and track your interests.</p>
+  <!-- Welcome -->
+  <div class="mb-4">
+    <h2>🛒 Buyer Dashboard</h2>
+    <p class="lead">Welcome, <strong>{{ request.user.username }}</strong>! Browse available crops, message farmers, and track your interests.</p>
+  </div>
 
-{% if weather %}
-<div style="background:#eef; padding:10px; border-radius:5px; width:250px;">
-  <h4>🌤 Weather in {{ location }}</h4>
-  <p><img src="http://openweathermap.org/img/wn/{{ weather.icon }}.png" alt="Weather icon">
-     {{ weather.temp }}°C - {{ weather.description }}</p>
+  <!-- Weather Card -->
+  {% if weather %}
+  <div class="card mb-4" style="max-width: 300px;">
+    <div class="card-body text-center">
+      <h5 class="card-title">🌤 Weather in {{ location }}</h5>
+      <img src="http://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" alt="Weather icon">
+      <p class="card-text mb-0">{{ weather.temp }}°C</p>
+      <small class="text-muted text-capitalize">{{ weather.description }}</small>
+    </div>
+  </div>
+  {% endif %}
+
+  <form method="get" class="mb-3">
+    <input type="text" name="city" class="form-control mb-2" placeholder="Enter city" value="{{ location }}">
+    <button type="submit" class="btn btn-primary w-100">Check Weather</button>
+  </form>
+
+  <!-- Action Buttons -->
+  <div class="mb-4 d-flex flex-wrap gap-2">
+    <a href="{% url 'product_list' %}" class="btn btn-success flex-grow-1">🛒 Browse Marketplace</a>
+    <a href="{% url 'inbox' %}" class="btn btn-primary flex-grow-1">📥 View Inbox ({{ unread_messages }})</a>
+  </div>
+
+  <!-- Latest Crops -->
+  <div class="mb-4">
+    <h3>🌱 Latest Crops</h3>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+      {% for product in recent_products %}
+      <div class="col">
+        <div class="card h-100">
+          {% if product.image %}
+          <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.title }}">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ product.title }}</h5>
+            <p class="card-text">💰 ₦{{ product.price }}</p>
+            <p class="card-text">📍 {{ product.city }}, {{ product.state }}</p>
+          </div>
+          <div class="card-footer">
+            <a href="{% url 'product_detail' product.id %}" class="btn btn-outline-primary w-100">View Details</a>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p class="text-muted">No crops available yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Tips -->
+    <div class="alert alert-info">
+        <h5 class="mb-2">💡 Tips</h5>
+        <ul class="mb-0">
+            <li>Use the filter bar on the marketplace to search by price and location./li>
+            <li>Click on a product to view details and message the seller.</li>
+            <li>Check your inbox regularly to stay updated on new listings.</li>
+        </ul>
+    </div>
+
 </div>
-{% endif %}
-
-<a href="{% url 'product_list' %}" class="btn btn-success">🛒 Browse Marketplace</a><br>
-<a href="{% url 'inbox' %}" class="btn btn-primary mt-2">📥 View Inbox ({{ unread_messages }})</a><br>
-
-<h3>🌱 Latest Crops</h3>
-<ul>
-  {% for product in recent_products %}
-    <li>
-      <strong>{{ product.title }}</strong> - ₦{{ product.price }} <br>
-      Location: {{ product.location }}
-    </li>
-  {% empty %}
-    <li>No crops available yet.</li>
-  {% endfor %}
-</ul>
-
-<h3>💡 Tips</h3>
-<ul>
-  <li>Use the filter bar on the marketplace to search by price and location.</li>
-  <li>Click on a product to view details and message the seller.</li>
-</ul>
 {% endblock %}

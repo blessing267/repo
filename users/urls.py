@@ -8,4 +8,5 @@ urlpatterns = [
     path('dashboard/', views.dashboard_redirect, name='dashboard'),
     path('dashboard/farmer/', views.farmer_dashboard, name='farmer_dashboard'),
     path('dashboard/buyer/', views.buyer_dashboard, name='buyer_dashboard'),
+    path('password_reset/', views.password_reset, name='password_reset'),
 ]
