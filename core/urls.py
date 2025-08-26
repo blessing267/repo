@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 
 urlpatterns = [
@@ -18,4 +18,7 @@ urlpatterns = [
 
     # Logistics dashboard
     path('dashboard/logistics/', views.logistics_dashboard, name='logistics_dashboard'),
+    
+    # your other urls...
+    path('i18n/', include('django.conf.urls.i18n')),
 ]

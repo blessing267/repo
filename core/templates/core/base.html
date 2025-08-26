@@ -83,6 +83,16 @@
                     </li>
                 </ul>
             {% endif %}
+
+            <form action="{% url 'set_language' %}" method="post" class="d-flex align-items-center ms-3">
+                {% csrf_token %}
+                <select name="language" class="form-select form-select-sm me-2" onchange="this.form.submit()">
+                    <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
+                    <option value="yo" {% if LANGUAGE_CODE == 'yo' %}selected{% endif %}>Yoruba</option>
+                </select>
+                <noscript><button type="submit" class="btn btn-sm btn-light">Switch</button></noscript>
+            </form>
+            
         </div>
     </div>
 </nav>
