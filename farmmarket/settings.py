@@ -30,12 +30,11 @@ SECRET_KEY = 'django-insecure-h)5yqrw#9c(io$bi)m63%0@m7&ppi#pi0j_$#z2_*byxp6e1#l
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    'farmmarket-eca8bbaygva3c0cg.uksouth-01.azurewebsites.net',
-    'localhost',
-    '127.0.0.1'
-]
+ALLOWED_HOSTS = ['*']
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://farmmarket-eca8bbaygva3c0cg.uksouth-01.azurewebsites.net",
+]
 
 
 # Application definition
