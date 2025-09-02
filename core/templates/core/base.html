@@ -96,6 +96,7 @@
             <!-- Language switcher -->
             <form action="{% url 'set_language' %}" method="post" class="d-flex align-items-center ms-3">
                 {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.path }}">
                 <select name="language" class="form-select form-select-sm me-2" onchange="this.form.submit()">
                     <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
                     <option value="yo" {% if LANGUAGE_CODE == 'yo' %}selected{% endif %}>Yoruba</option>

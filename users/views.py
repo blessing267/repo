@@ -33,17 +33,8 @@ def login_view(request):
             user = form.get_user()
             login(request, user)
 
-            # Redirect based on role
-            profile, created = Profile.objects.get_or_create(user=user)
-            if profile.role == 'farmer':
-                return redirect('farmer_dashboard')
-            elif profile.role == 'buyer':
-                return redirect('buyer_dashboard') 
-            elif profile.role == 'logistics':
-                return redirect('logistics_dashboard')
-            else:
-                messages.warning(request, "Role not recognized. Redirecting to homepage.")
-                return redirect('home')
+            # Redirect based on roleveryone to homepage
+            return redirect('home')
         else:
             messages.error(request, "Invalid username or password.")
     else:
@@ -53,13 +44,18 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('login')
-
+    
 @login_required
 def dashboard_redirect(request):
-    if request.user.profile.role == 'farmer':
+    role = request.user.profile.role
+    if role == 'logistics':
+        return redirect('logistics_dashboard')
+    elif role == 'farmer':
         return redirect('farmer_dashboard')
-    else:
+    elif role == 'buyer':
         return redirect('buyer_dashboard')
+    else:
+        return redirect('home')
 
 @login_required
 def farmer_dashboard(request):

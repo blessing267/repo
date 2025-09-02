@@ -1,23 +1,46 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-<h2>Pending Deliveries</h2>
-<ul>
-  {% for delivery in deliveries %}
-    <li>
-      <strong>{{ delivery.product.title }}</strong><br>
-      From: {{ delivery.pickup_location }}<br>
-      To: {{ delivery.destination }}<br>
-      Requested by: {{ delivery.farmer.username }}<br>
+<div class="container mt-4">
+    <h2 class="mb-4">Pending Deliveries</h2>
 
-      {% if delivery.logistics_agent %}
-          <span class="text-muted">Assigned to {{ delivery.logistics_agent.username }}</span>
-      {% else %}
-          <a href="{% url 'update_delivery_status' delivery.id 'accepted' %}" class="btn btn-sm btn-success">Accept</a>
-      {% endif %}
-    </li>
-  {% empty %}
-    <li class="text-muted">🚚 No pending deliveries at the moment. Check back later!</li>
-  {% endfor %}
-</ul>
+    {% if deliveries %}
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            {% for delivery in deliveries %}
+            <div class="col">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ delivery.product.title }}</h5>
+                        <p class="card-text mb-1"><strong>From:</strong> {{ delivery.pickup_location }}</p>
+                        <p class="card-text mb-1"><strong>To:</strong> {{ delivery.destination }}</p>
+                        <p class="card-text mb-2"><strong>Requested by:</strong> {{ delivery.farmer.username }}</p>
+
+                        {% if delivery.logistics_agent %}
+                            <span class="badge bg-secondary">Assigned to {{ delivery.logistics_agent.username }}</span>
+
+                            {% if delivery.logistics_agent == user and delivery.status == 'pending' %}
+                                <div class="mt-2">
+                                    <a href="{% url 'update_delivery_status' delivery.id 'in_transit' %}" class="btn btn-primary btn-sm">Mark In Transit</a>
+                                    <a href="{% url 'update_delivery_status' delivery.id 'cancelled' %}" class="btn btn-danger btn-sm">Cancel</a>
+                                </div>
+                            {% endif %}
+
+                        {% else %}
+                            {# Only allow current user to accept if unassigned #}
+                            <a href="{% url 'update_delivery_status' delivery.id 'accepted' %}" class="btn btn-success btn-sm mt-2">Accept Delivery</a>
+                        {% endif %}
+                    </div>
+                    <div class="card-footer text-muted">
+                        Status: {{ delivery.status|capfirst }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center">
+             No pending deliveries at the moment. Check back later!
+        </div>
+    {% endif %}
+</div>
 {% endblock %}

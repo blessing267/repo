@@ -15,8 +15,6 @@ from decouple import config
 from django.utils.translation import gettext_lazy as _
 import os
 
-OPENWEATHER_API_KEY = config('OPENWEATHER_API_KEY')
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -30,7 +28,12 @@ SECRET_KEY = 'django-insecure-h)5yqrw#9c(io$bi)m63%0@m7&ppi#pi0j_$#z2_*byxp6e1#l
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    'farmmarket-eca8bbaygva3c0cg.uksouth-01.azurewebsites.net',
+    'localhost',
+    '127.0.0.1',
+]
+
 
 CSRF_TRUSTED_ORIGINS = [
     "https://farmmarket-eca8bbaygva3c0cg.uksouth-01.azurewebsites.net",
@@ -139,7 +142,7 @@ STATICFILES_DIRS = [ BASE_DIR / 'static' ]  # only if you use a shared static fo
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+# Login redirects
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'login'
@@ -151,8 +154,8 @@ USE_I18N = True
 USE_L10N = True
 
 LANGUAGES = [
-    ('en', 'English'),
-    ('yo', 'Yoruba'),
+    ('en', _('English')),
+    ('yo', _('Yoruba')),
 ]
 
 LOCALE_PATHS = [
@@ -162,3 +165,6 @@ LOCALE_PATHS = [
 # Crispy Forms Settings
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+# Any external API keys
+OPENWEATHER_API_KEY = config('OPENWEATHER_API_KEY')
