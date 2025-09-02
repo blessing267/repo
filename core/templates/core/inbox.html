@@ -1,16 +1,17 @@
 {% extends 'core/base.html' %}
+{% load i18n %}
 
 {% block content %}
 <div class="container my-4">
-    <h2 class="mb-4">📥 Your Inbox</h2>
+    <h2 class="mb-4">📥 {% trans "Your Inbox" %}</h2>
 
     <!-- Action Buttons -->
     <div class="mb-4 d-flex gap-2">
         <a href="{% url 'send_message' %}" class="btn btn-success">
-            ✉️ Send New Message
+            ✉️ {% trans "Send New Message" %}
         </a>
         <a href="{% url 'sent_messages' %}" class="btn btn-primary">
-            📤 Sent Messages
+            📤 {% trans "Sent Messages" %}
         </a>
     </div>
 
@@ -21,14 +22,14 @@
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <h6 class="card-subtitle mb-2 text-muted">
-                            From: <span class="fw-bold">{{ msg.sender.username }}</span>
+                            {% trans "From:" %} <span class="fw-bold">{{ msg.sender.username }}</span>
                         </h6>
                         <p class="card-text">{{ msg.body }}</p>
                     </div>
                     <div class="card-footer text-end text-muted small">
-                        Sent at: {{ msg.timestamp|date:"M d, Y - H:i A" }}
+                        {% trans "Sent at:" %} {{ msg.timestamp|date:"M d, Y - H:i A" }}
                         {% if not msg.is_read %}
-                            <span class="badge bg-warning text-dark ms-2">New</span>
+                            <span class="badge bg-warning text-dark ms-2">{% trans "New" %}</span>
                         {% endif %}
                     </div>
                 </div>
@@ -36,7 +37,7 @@
         </div>
     {% else %}
         <div class="alert alert-info">
-            You have no messages yet.
+            {% trans "You have no messages yet." %}
         </div>
     {% endif %}
 </div>

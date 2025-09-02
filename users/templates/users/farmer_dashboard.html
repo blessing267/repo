@@ -1,14 +1,14 @@
 {% extends 'core/base.html' %}
-
+{% load i18n %}
 {% block content %}
 <div class="container my-4">
-    <h2 class="mb-4">👨‍🌾 Farmer Dashboard</h2>
-    <p class="lead">Welcome, <strong>{{ request.user.username }}</strong>! Manage your products, messages, and deliveries in one place.</p>
+    <h2 class="mb-4">👨‍🌾 {% trans "Farmer Dashboard" %}</h2>
+    <p class="lead">{% blocktrans %}Welcome, <strong>{{ request.user.username }}</strong>! Manage your products, messages, and deliveries in one place.{% endblocktrans %}</p>
 
     {% if weather %}
     <div class="card mb-4 shadow-sm" style="max-width: 350px;">
         <div class="card-body text-center">
-            <h5 class="card-title">🌤 Weather in {{ location }}</h5>
+            <h5 class="card-title">🌤 {% blocktrans %}Weather in {{ location }}{% endblocktrans %}</h5>
             <img src="http://openweathermap.org/img/wn/{{ weather.icon }}.png" alt="Weather icon" class="mb-2">
             <p class="mb-0"><strong>{{ weather.temp }}°C</strong> - {{ weather.description|title }}</p>
         </div>
@@ -17,23 +17,23 @@
 
     <form method="get" class="mb-3">
         <input type="text" name="city" class="form-control mb-2" placeholder="Enter city" value="{{ location }}">
-        <button type="submit" class="btn btn-primary w-100">Check Weather</button>
+        <button type="submit" class="btn btn-primary w-100">{% trans "Check Weather" %}</button>
     </form>
 
     <!-- Quick Actions -->
     <div class="row mb-4">
         <div class="col-md-3">
-            <a href="{% url 'product_create' %}" class="btn btn-success w-100 mb-2">➕ Post a New Crop</a>
+            <a href="{% url 'product_create' %}" class="btn btn-success w-100 mb-2">➕ {% trans "Post a New Crop" %}</a>
         </div>
         <div class="col-md-3">
-            <a href="{% url 'product_list' %}" class="btn btn-success w-100 mb-2">🛒 Browse Marketplace</a>
+            <a href="{% url 'product_list' %}" class="btn btn-success w-100 mb-2">🛒 {% trans "Browse Marketplace" %}</a>
         </div>
         <div class="col-md-3">
-            <a href="{% url 'inbox' %}" class="btn btn-primary w-100 mb-2">📨 View Inbox ({{ unread_messages }})</a>
+            <a href="{% url 'inbox' %}" class="btn btn-primary w-100 mb-2">📨 {% blocktrans %}View Inbox ({{ unread_messages }}){% endblocktrans %}</a>
         </div>
         <div class="col-md-3">
             <a href="{% url 'my_deliveries' %}" class="btn btn-info w-100 mb-2">
-                🚚 My Deliveries
+                🚚 {% trans "My Deliveries" %}
             </a>
         </div>
     </div> 
@@ -41,7 +41,7 @@
     <!-- My Listings -->
     <div class="card mb-4 shadow-sm">
         <div class="card-header bg-success text-white">
-            🧺 My Listings
+            🧺 {% trans "My Listings" %}
         </div>
         <ul class="list-group list-group-flush">
             {% for product in my_products %}
@@ -52,12 +52,12 @@
                     {% if product.id %}
                         <a href="{% url 'request_delivery_with_product' product.id %}" 
                            class="btn btn-sm btn-outline-primary mt-2">
-                            🚚 Request Delivery
+                            🚚 {% trans "Request Delivery" %}
                         </a>
                     {% endif %}
                 </li>
             {% empty %}
-                <li class="list-group-item text-muted">You have not posted any crops yet.</li>
+                <li class="list-group-item text-muted">{% trans "You have not posted any crops yet." %}</li>
             {% endfor %}
         </ul>
     </div>
@@ -65,7 +65,7 @@
     <!-- Recent Marketplace Activity -->
     <div class="card mb-4 shadow-sm">
         <div class="card-header bg-warning">
-            🌾 Recent Marketplace Activity
+            🌾 {% trans "Recent Marketplace Activity" %}
         </div>
         <ul class="list-group list-group-flush">
             {% for product in recent_marketplace %}
@@ -73,7 +73,7 @@
                     <strong>{{ product.title }}</strong> by {{ product.farmer.username }} — <span class="text-success">₦{{ product.price }}</span>
                 </li>
             {% empty %}
-                <li class="list-group-item text-muted">No recent marketplace activity.</li>
+                <li class="list-group-item text-muted">{% trans "No recent marketplace activity." %}</li>
             {% endfor %}
         </ul>
     </div>
@@ -82,8 +82,8 @@
     <div class="alert alert-info">
         <h5 class="mb-2">💡 Tips</h5>
         <ul class="mb-0">
-            <li>Respond to buyer messages quickly to secure sales.</li>
-            <li>Post clear, high-quality photos of your crops to attract buyers.</li>
+            <li>{% trans "Respond to buyer messages quickly to secure sales." %}</li>
+            <li>{% trans "Post clear, high-quality photos of your crops to attract buyers." %}</li>
         </ul>
     </div>
 </div>

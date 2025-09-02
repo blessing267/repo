@@ -1,8 +1,9 @@
 {% extends 'core/base.html' %}
+{% load i18n %}
 
 {% block content %}
 <div class="container mt-4">
-    <h2 class="mb-4">Pending Deliveries</h2>
+    <h2 class="mb-4">{% trans "Pending Deliveries" %}</h2>
 
     {% if deliveries %}
         <div class="row row-cols-1 row-cols-md-2 g-4">
@@ -11,27 +12,27 @@
                 <div class="card shadow-sm h-100">
                     <div class="card-body">
                         <h5 class="card-title">{{ delivery.product.title }}</h5>
-                        <p class="card-text mb-1"><strong>From:</strong> {{ delivery.pickup_location }}</p>
-                        <p class="card-text mb-1"><strong>To:</strong> {{ delivery.destination }}</p>
-                        <p class="card-text mb-2"><strong>Requested by:</strong> {{ delivery.farmer.username }}</p>
+                        <p class="card-text mb-1"><strong>{% trans "From:" %}</strong> {{ delivery.pickup_location }}</p>
+                        <p class="card-text mb-1"><strong>{% trans "To:" %}</strong> {{ delivery.destination }}</p>
+                        <p class="card-text mb-2"><strong>{% trans "Requested by:" %}</strong> {{ delivery.farmer.username }}</p>
 
                         {% if delivery.logistics_agent %}
                             <span class="badge bg-secondary">Assigned to {{ delivery.logistics_agent.username }}</span>
 
                             {% if delivery.logistics_agent == user and delivery.status == 'pending' %}
                                 <div class="mt-2">
-                                    <a href="{% url 'update_delivery_status' delivery.id 'in_transit' %}" class="btn btn-primary btn-sm">Mark In Transit</a>
-                                    <a href="{% url 'update_delivery_status' delivery.id 'cancelled' %}" class="btn btn-danger btn-sm">Cancel</a>
+                                    <a href="{% url 'update_delivery_status' delivery.id 'in_transit' %}" class="btn btn-primary btn-sm">{% trans "Mark In Transit" %}</a>
+                                    <a href="{% url 'update_delivery_status' delivery.id 'cancelled' %}" class="btn btn-danger btn-sm">{% trans "Cancel" %}</a>
                                 </div>
                             {% endif %}
 
                         {% else %}
                             {# Only allow current user to accept if unassigned #}
-                            <a href="{% url 'update_delivery_status' delivery.id 'accepted' %}" class="btn btn-success btn-sm mt-2">Accept Delivery</a>
+                            <a href="{% url 'update_delivery_status' delivery.id 'accepted' %}" class="btn btn-success btn-sm mt-2">{% trans "Accept Delivery" %}</a>
                         {% endif %}
                     </div>
                     <div class="card-footer text-muted">
-                        Status: {{ delivery.status|capfirst }}
+                        {% trans "Status:" %} {{ delivery.status|capfirst }}
                     </div>
                 </div>
             </div>
@@ -39,7 +40,8 @@
         </div>
     {% else %}
         <div class="alert alert-info text-center">
-             No pending deliveries at the moment. Check back later!
+            {% trans "No pending deliveries at the moment. Check back later!" %} 
+
         </div>
     {% endif %}
 </div>

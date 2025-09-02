@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %}
 {% load crispy_forms_tags %}
+{% load i18n %}
 
 {% block content %}
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
@@ -7,8 +8,8 @@
     
     <!-- Card Header -->
     <div class="card-header text-center text-white py-4 rounded-top-4" style="background-color: #198754;">
-      <h2 class="mb-0">Login</h2>
-      <small class="d-block mt-1">Please enter your login details</small>
+      <h2 class="mb-0">{% trans "Login" %}</h2>
+      <small class="d-block mt-1">{% trans "Please enter your login details" %}</small>
     </div>
     
     <!-- Card Body -->
@@ -28,7 +29,7 @@
 
         <div class="d-flex justify-content-between mb-3">
           <!-- Forgot Password link displayed on page -->
-          <small><a href="{% url 'password_reset' %}">Forgot Password?</a></small>
+          <small><a href="{% url 'password_reset' %}">{% trans "Forgot Password?" %}</a></small>
         </div>
 
         <button type="submit" class="btn btn-success btn-lg w-100 mt-2">Login</button>

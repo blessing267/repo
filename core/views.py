@@ -6,17 +6,12 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.contrib import messages
 from .utils import get_weather
-from django.utils import translation
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 
 # Create your views here.
 def home(request):
-    context = {
-        'LANGUAGE_CODE': translation.get_language(),
-        # other context variables
-    }
-    return render(request, 'core/home.html', context)
+    return render(request, 'core/home.html')
 
 def product_list(request):
     products = Product.objects.all().order_by('-date_posted')

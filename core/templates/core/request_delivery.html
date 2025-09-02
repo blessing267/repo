@@ -1,15 +1,16 @@
 {% extends 'core/base.html' %}
 {% load crispy_forms_tags %}
+{% load i18n %}
 
 {% block content %}
 <div class="container mt-4">
-    <h2>🚚 Request a Delivery</h2>
-    <p>Please fill in the details below to request a delivery.</p>
+    <h2>🚚 {% trans "Request a Delivery" %}</h2>
+    <p>{% trans "Please fill in the details below to request a delivery." %}</p>
     
     <form method="post">
         {% csrf_token %}
         {{ form|crispy }}
-        <button type="submit" class="btn btn-success">📦 Submit Request</button>
+        <button type="submit" class="btn btn-success">📦 {% trans "Submit Request" %}</button>
     </form>
 </div>
 {% endblock %}

@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %}
 {% load crispy_forms_tags %}
+{% load i18n %}
 
 {% block content %}
 
@@ -9,17 +10,17 @@
 
             <div class="card shadow-sm">
                 <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">📨 Send Message</h4>
+                    <h4 class="mb-0">📨 {% trans "Send Message" %}</h4>
                 </div>
                 <div class="card-body">
 
                     <!-- Navigation buttons -->
                     <div class="mb-4 d-flex justify-content-between">
                         <a href="{% url 'inbox' %}" class="btn btn-secondary">
-                            📥 Inbox
+                            📥 {% trans "Inbox" %}
                         </a>
                         <a href="{% url 'sent_messages' %}" class="btn btn-primary">
-                            📤 Sent Messages
+                            📤 {% trans "Sent Messages" %}
                         </a>
                     </div>
 
@@ -29,7 +30,7 @@
                         {{ form|crispy }}
                         <div class="d-grid mt-3">
                             <button type="submit" class="btn btn-success btn-lg">
-                                ✉️ Send Message
+                                ✉️ {% trans "Send Message" %}
                             </button>
                         </div>
                     </form>

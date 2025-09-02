@@ -1,10 +1,11 @@
 {% extends 'core/base.html' %}
+{% load i18n %}
 
 {% block content %}
 
-<h2>Marketplace</h2>
+<h2>{% trans "Marketplace" %}</h2>
 {% if is_farmer %}
-  <a class="btn btn-success mb-3" href="{% url 'product_create' %}">Post a Product</a>
+  <a class="btn btn-success mb-3" href="{% url 'product_create' %}">{% trans "Post a Product" %}</a>
 {% endif %}
 
 {% if weather %}
@@ -13,7 +14,7 @@
       <img src="http://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" alt="weather icon" width="60">
     </div>
     <div>
-      <strong>Weather in {{ location|default:"Oyo State" }}:</strong><br>
+      <strong>{% trans "Weather in" %} {{ location|default:"Oyo State" }}:</strong><br>
       {{ weather.description|title }}, {{ weather.temperature }}°C
     </div>
   </div>
@@ -21,25 +22,25 @@
 
 <form method="GET" class="mb-4">
   <select name="category" class="form-select mb-2">
-    <option value="">All Crops</option>
-    <option value="Tomato">Tomato</option>
-    <option value="Maize">Maize</option>
-    <option value="Pepper">Pepper</option>
-    <option value="Yam">Yam</option>
-    <option value="Rice">Rice</option>
-    <option value="Cassava">Cassava</option>
-    <option value="Okra">Okra</option>
-    <option value="Onion">Onion</option>
-    <option value="Eggplant">Eggplant</option>
-    <option value="Carrot">Carrot</option>
-    <option value="Cucumber">Cucumber</option>
-    <option value="Watermelon">Watermelon</option>
+    <option value="">{% trans "All Crops" %}</option>
+    <option value="Tomato">{% trans "Tomato" %}</option>
+    <option value="Maize">{% trans "Maize" %}</option>
+    <option value="Pepper">{% trans "Pepper" %}</option>
+    <option value="Yam">{% trans "Yam" %}</option>
+    <option value="Rice">{% trans "Rice" %}</option>
+    <option value="Cassava">{% trans "Cassava" %}</option>
+    <option value="Okra">{% trans "Okra" %}</option>
+    <option value="Onion">{% trans "Onion" %}</option>
+    <option value="Eggplant">{% trans "Eggplant" %}</option>
+    <option value="Carrot">{% trans "Carrot" %}</option>
+    <option value="Cucumber">{% trans "Cucumber" %}</option>
+    <option value="Watermelon">{% trans "Watermelon" %}</option>
   </select>
 
   <input type="text" name="location" class="form-control mb-2" placeholder="Filter by location" {% if location %}value="{{ location }}"{% endif %}>
   <input type="number" step="0.01" name="min_price" class="form-control mb-2" placeholder="Min price" value="{{ min_price }}">
   <input type="number" step="0.01" name="max_price" class="form-control mb-2" placeholder="Max price" value="{{ max_price }}">
-  <button type="submit" class="btn btn-primary w-100">Search</button>
+  <button type="submit" class="btn btn-primary w-100">{% trans "Search" %}</button>
 </form>
 
 <hr>
@@ -49,9 +50,9 @@
     <li class="list-group-item">
       <strong>{{ product.title }}</strong> - ₦{{ product.price }}<br>
       {{ product.description }}<br>
-      Quantity: {{ product.quantity }}<br>
-      Location: {{ product.city }}, {{ product.state }}<br>
-      Posted by: {{ product.farmer.username }} on {{ product.date_posted|date:"M d, Y - H:i A" }}
+      {% trans "Quantity" %}: {{ product.quantity }}<br>
+      {% trans "Location" %}: {{ product.city }}, {{ product.state }}<br>
+      {% trans "Posted by" %}: {{ product.farmer.username }} on {{ product.date_posted|date:"M d, Y - H:i A" }}
 
       {% if product.image %}
         <br><img src="{{ product.image.url }}" width="100" class="mt-2 rounded">
@@ -59,7 +60,7 @@
 
     </li>
   {% empty %}
-    <p>No products listed yet.</p>
+    <p>{% trans "No products listed yet." %}</p>
   {% endfor %}
 </ul>
 

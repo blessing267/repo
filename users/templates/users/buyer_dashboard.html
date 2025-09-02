@@ -1,19 +1,20 @@
 {% extends 'core/base.html' %}
+{% load i18n %}
 
 {% block content %}
 <div class="container my-4">
 
   <!-- Welcome -->
   <div class="mb-4">
-    <h2>🛒 Buyer Dashboard</h2>
-    <p class="lead">Welcome, <strong>{{ request.user.username }}</strong>! Browse available crops, message farmers, and track your interests.</p>
+    <h2>🛒 {% trans "Buyer Dashboard" %}</h2>
+    <p class="lead">{% blocktrans %}Welcome, <strong>{{ request.user.username }}</strong>! Browse available crops, message farmers, and track your interests.{% endblocktrans %}</p>
   </div>
 
   <!-- Weather Card -->
   {% if weather %}
   <div class="card mb-4" style="max-width: 300px;">
     <div class="card-body text-center">
-      <h5 class="card-title">🌤 Weather in {{ location }}</h5>
+      <h5 class="card-title">🌤 {% trans "Weather in" %} {{ location }}</h5>
       <img src="http://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" alt="Weather icon">
       <p class="card-text mb-0">{{ weather.temp }}°C</p>
       <small class="text-muted text-capitalize">{{ weather.description }}</small>
@@ -23,18 +24,18 @@
 
   <form method="get" class="mb-3">
     <input type="text" name="city" class="form-control mb-2" placeholder="Enter city" value="{{ location }}">
-    <button type="submit" class="btn btn-primary w-100">Check Weather</button>
+    <button type="submit" class="btn btn-primary w-100">{% trans "Check Weather" %}</button>
   </form>
 
   <!-- Action Buttons -->
   <div class="mb-4 d-flex flex-wrap gap-2">
-    <a href="{% url 'product_list' %}" class="btn btn-success flex-grow-1">🛒 Browse Marketplace</a>
-    <a href="{% url 'inbox' %}" class="btn btn-primary flex-grow-1">📥 View Inbox ({{ unread_messages }})</a>
+    <a href="{% url 'product_list' %}" class="btn btn-success flex-grow-1">🛒 {% trans "Browse Marketplace" %}</a>
+    <a href="{% url 'inbox' %}" class="btn btn-primary flex-grow-1">📥 {% blocktrans %}View Inbox ({{ unread_messages }}){% endblocktrans %}</a>
   </div>
 
   <!-- Latest Crops -->
   <div class="mb-4">
-    <h3>🌱 Latest Crops</h3>
+    <h3>🌱 {% trans "Latest Crops" %}</h3>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
       {% for product in recent_products %}
       <div class="col">
@@ -48,23 +49,23 @@
             <p class="card-text">📍 {{ product.city }}, {{ product.state }}</p>
           </div>
           <div class="card-footer">
-            <a href="{% url 'product_detail' product.id %}" class="btn btn-outline-primary w-100">View Details</a>
+            <a href="{% url 'product_detail' product.id %}" class="btn btn-outline-primary w-100">{% trans "View Details" %}</a>
           </div>
         </div>
       </div>
       {% empty %}
-      <p class="text-muted">No crops available yet.</p>
+      <p class="text-muted">{% trans "No crops available yet." %}</p>
       {% endfor %}
     </div>
   </div>
 
   <!-- Tips -->
     <div class="alert alert-info">
-        <h5 class="mb-2">💡 Tips</h5>
+        <h5 class="mb-2">💡 {% trans "Tips" %}</h5>
         <ul class="mb-0">
-            <li>Use the filter bar on the marketplace to search by price and location./li>
-            <li>Click on a product to view details and message the seller.</li>
-            <li>Check your inbox regularly to stay updated on new listings.</li>
+            <li>{% trans "Use the filter bar on the marketplace to search by price and location." %}</li>
+            <li>{% trans "Click on a product to view details and message the seller." %}</li>
+            <li>{% trans "Check your inbox regularly to stay updated on new listings." %}</li>
         </ul>
     </div>
 
