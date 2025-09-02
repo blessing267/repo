@@ -1,17 +1,22 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Product, Message, DeliveryRequest
 from .forms import ProductForm, MessageForm, DeliveryRequestForm
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.contrib import messages
 from .utils import get_weather
+from django.utils import translation
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 
 # Create your views here.
 def home(request):
-    return render(request, 'core/home.html')
+    context = {
+        'LANGUAGE_CODE': translation.get_language(),
+        # other context variables
+    }
+    return render(request, 'core/home.html', context)
 
 def product_list(request):
     products = Product.objects.all().order_by('-date_posted')
