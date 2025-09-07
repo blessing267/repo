@@ -1,9 +1,10 @@
 {% extends 'core/base.html' %}
 {% load i18n %}
 {% block content %}
-<div class="container my-4">
-    <h2 class="mb-4">👨‍🌾 {% trans "Farmer Dashboard" %}</h2>
-    <p class="lead">{% blocktrans %}Welcome, <strong>{{ request.user.username }}</strong>! Manage your products, messages, and deliveries in one place.{% endblocktrans %}</p>
+<div class="container my-3">
+    <!-- Hero / Header -->
+    <h2 class="fw-bold"><i class="bi bi-house-fill me-2"></i>👨‍🌾 {% trans "Farmer Dashboard" %}</h2>
+    <p class="lead">{% blocktrans %}Manage your products, messages, and deliveries in one place.{% endblocktrans %}</p>
 
     {% if weather %}
     <div class="card mb-4 shadow-sm" style="max-width: 350px;">
@@ -17,60 +18,100 @@
 
     <form method="get" class="mb-3">
         <input type="text" name="city" class="form-control mb-2" placeholder="Enter city" value="{{ location }}">
-        <button type="submit" class="btn btn-primary w-100">{% trans "Check Weather" %}</button>
+        <button type="submit" class="btn btn-primary bg-success w-100">{% trans "Check Weather" %}</button>
     </form>
+
+    <!-- Overview Stats -->
+    <div class="row mb-4 g-3">
+        <div class="col-md-3">
+            <div class="card shadow-sm text-center py-3">
+                <img src="https://img.icons8.com/fluency/96/vegetarian-food.png" alt="Products" class="mb-2" width="50">
+                <i class="bi bi-box-seam fs-1 text-success"></i>
+                <h6 class="mt-2">{% trans "Products" %}</h6>
+                <p class="display-6 mb-0">{{ my_products.count }}</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm text-center py-3">
+                <img src="https://img.icons8.com/color/96/delivery.png" alt="Deliveries" class="mb-2" width="50">
+                <i class="bi bi-truck fs-1 text-info"></i>
+                <h6 class="mt-2">{% trans "Deliveries" %}</h6>
+                <p class="display-6 mb-0">{{ my_deliveries.count }}</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm text-center py-3">
+                <img src="https://img.icons8.com/color/96/new-message.png" alt="Messages" class="mb-2" width="50">
+                <i class="bi bi-envelope fs-1 text-primary"></i>
+                <h6 class="mt-2">{% trans "Unread Messages" %}</h6>
+                <p class="display-6 mb-0">{{ unread_messages }}</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm text-center py-3">
+                <i class="bi bi-graph-up fs-1 text-warning"></i>
+                <h6 class="mt-2">{% trans "Marketplace Activity" %}</h6>
+                <p class="display-6 mb-0">{{ recent_marketplace.count }}</p>
+            </div>
+        </div>
+    </div>
 
     <!-- Quick Actions -->
     <div class="row mb-4">
         <div class="col-md-3">
-            <a href="{% url 'product_create' %}" class="btn btn-success w-100 mb-2">➕ {% trans "Post a New Crop" %}</a>
+            <a href="{% url 'product_create' %}" class="btn btn-primary w-100 mb-2">
+            <i class="bi bi-plus-circle me-1"></i>➕ {% trans "Post a New Crop" %}</a>
         </div>
         <div class="col-md-3">
-            <a href="{% url 'product_list' %}" class="btn btn-success w-100 mb-2">🛒 {% trans "Browse Marketplace" %}</a>
+            <a href="{% url 'my_deliveries' %}" class="btn btn-primary w-100 mb-2">
+            <i class="bi bi-truck me-1"></i>🚚 {% trans "My Deliveries" %}</a>
         </div>
         <div class="col-md-3">
-            <a href="{% url 'inbox' %}" class="btn btn-primary w-100 mb-2">📨 {% blocktrans %}View Inbox ({{ unread_messages }}){% endblocktrans %}</a>
+            <a href="{% url 'inbox' %}" class="btn btn-primary w-100 mb-2">
+            <i class="bi bi-envelope me-1"></i>📨 {% blocktrans %}Inbox ({{ unread_messages }}){% endblocktrans %}</a>
         </div>
         <div class="col-md-3">
-            <a href="{% url 'my_deliveries' %}" class="btn btn-info w-100 mb-2">
-                🚚 {% trans "My Deliveries" %}
-            </a>
+            <a href="{% url 'product_list' %}" class="btn btn-primary w-100 mb-2">
+            <i class="bi bi-cart4 me-1"></i>🛒 {% trans "Browse Marketplace" %}</a>
         </div>
     </div> 
 
     <!-- My Listings -->
     <div class="card mb-4 shadow-sm">
-        <div class="card-header bg-success text-white">
-            🧺 {% trans "My Listings" %}
+        <div class="card-header bg-success text-white d-flex align-items-center">
+            <i class="bi bi-list-task me-2"></i>🧺 {% trans "My Listings" %}
         </div>
         <ul class="list-group list-group-flush">
             {% for product in my_products %}
-                <li class="list-group-item">
-                    <h6 class="mb-1">{{ product.title }} — <span class="text-success">₦{{ product.price }}</span></h6>
-                    <small>{{ product.quantity }} units at {{ product.location }} • Posted on {{ product.date_posted|date:"M d, Y" }}</small>
-                    
-                    {% if product.id %}
-                        <a href="{% url 'request_delivery_with_product' product.id %}" 
-                           class="btn btn-sm btn-outline-primary mt-2">
-                            🚚 {% trans "Request Delivery" %}
-                        </a>
+            <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+                <div class="d-flex align-items-center">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.title }}" width="50" class="me-3 rounded">
                     {% endif %}
-                </li>
+                    <div>
+                        <h6 class="mb-1">{{ product.title }} — <span class="text-success fw-bold">₦{{ product.price }}</span></h6>
+                        <small>{{ product.quantity }} units {{ product.location }} • Posted on {{ product.date_posted|date:"M d, Y" }}</small>
+                    </div>
+                </div>
+                <a href="{% url 'request_delivery_with_product' product.id %}" class="btn btn-sm btn-outline-primary">
+                    <i class="bi bi-truck me-1"></i>🚚 {% trans "Request Delivery" %}
+                </a>
+            </li>
             {% empty %}
-                <li class="list-group-item text-muted">{% trans "You have not posted any crops yet." %}</li>
+            <li class="list-group-item text-muted py-3">{% trans "You have not posted any crops yet." %}</li>
             {% endfor %}
         </ul>
     </div>
-
+    
     <!-- Recent Marketplace Activity -->
     <div class="card mb-4 shadow-sm">
-        <div class="card-header bg-warning">
-            🌾 {% trans "Recent Marketplace Activity" %}
+        <div class="card-header bg-success text-white d-flex align-items-center">
+            <i class="bi bi-activity me-2"></i>🌾 {% trans "Recent Marketplace Activity" %}
         </div>
         <ul class="list-group list-group-flush">
             {% for product in recent_marketplace %}
                 <li class="list-group-item">
-                    <strong>{{ product.title }}</strong> by {{ product.farmer.username }} — <span class="text-success">₦{{ product.price }}</span>
+                    <strong>{{ product.title }}</strong> by {{ product.farmer.username }} — <span class="text-success fw-bold">₦{{ product.price }}</span>
                 </li>
             {% empty %}
                 <li class="list-group-item text-muted">{% trans "No recent marketplace activity." %}</li>
@@ -84,6 +125,9 @@
         <ul class="mb-0">
             <li>{% trans "Respond to buyer messages quickly to secure sales." %}</li>
             <li>{% trans "Post clear, high-quality photos of your crops to attract buyers." %}</li>
+            <li>{% trans "Include quantity, quality, and location information for each product." %}</li>
+            <li>{% trans "Use weather updates to plan harvests and deliveries." %}</li>
+            <li>{% trans "Monitor pending deliveries to ensure timely fulfillment." %}</li>
         </ul>
     </div>
 </div>

@@ -26,18 +26,10 @@
   <!-- Google Fonts (optional for modern feel) -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-  <style>
-    body {
-      background-color: white;
-      font-family: 'Inter', sans-serif;
-    }
-
-    .navbar.custom-green, footer.custom-green {
-    background-color: #198754 !important;
-    }
-  </style>
+  {% block head %}{% endblock %}
 </head>
 <body>
+    
 <header>
 <nav class="navbar navbar-expand-lg custom-green">
     <div class="container">

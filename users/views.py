@@ -3,7 +3,7 @@ from django.contrib import messages
 from .forms import UserRegisterForm
 from core.forms import DeliveryRequestForm
 from .models import Profile
-from core.models import Product, Message
+from core.models import Product, Message, DeliveryRequest
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
@@ -62,7 +62,7 @@ def farmer_dashboard(request):
     my_products = Product.objects.filter(farmer=request.user).order_by('-date_posted')[:5]  # latest 5
     unread_messages = Message.objects.filter(recipient=request.user, is_read=False).count()
     recent_marketplace = Product.objects.exclude(farmer=request.user).order_by('-date_posted')[:5]
-    
+    my_deliveries = DeliveryRequest.objects.filter(farmer=request.user)
     # Weather Data
     location = request.GET.get('city') or request.user.profile.location or "Ibadan"
     
@@ -93,6 +93,7 @@ def farmer_dashboard(request):
 
     return render(request, 'users/farmer_dashboard.html', {
         'my_products': my_products,
+        'my_deliveries': my_deliveries,
         'unread_messages': unread_messages,
         'recent_marketplace': recent_marketplace,
         'weather': weather,
