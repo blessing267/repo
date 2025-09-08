@@ -3,69 +3,115 @@
 
 {% block content %}
 
-<h2>{% trans "Marketplace" %}</h2>
+<h2 class="fw-bold">{% trans "Marketplace" %}</h2>
+
 {% if is_farmer %}
-  <a class="btn btn-success mb-3" href="{% url 'product_create' %}">{% trans "Post a Product" %}</a>
+  <a class="btn btn-success mb-3" href="{% url 'product_create' %}">
+    <i class="bi bi-plus-circle"></i> {% trans "Post a Product" %}
+  </a>
 {% endif %}
 
 {% if weather %}
- <div class="alert alert-info d-flex flex-column flex-md-row align-items-center gap-3">
-    <div>
-      <img src="http://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" alt="weather icon" width="60">
-    </div>
-    <div>
-      <strong>{% trans "Weather in" %} {{ location|default:"Oyo State" }}:</strong><br>
-      {{ weather.description|title }}, {{ weather.temperature }}°C
+ <div class="alert alert-info d-flex align-items-center justify-content-between shadow-sm rounded p-3 mb-4">
+    <div class="d-flex align-items-center">
+      <img src="http://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" alt="weather icon" width="60" class="me-3">
+      <div>
+        <strong>{% trans "Weather in" %} {{ location|default:"Oyo State" }}:</strong><br>
+        {{ weather.description|title }}, {{ weather.temperature }}°C
+      </div>
     </div>
   </div>
 {% endif %}
 
-<form method="GET" class="mb-4">
-  <select name="category" class="form-select mb-2">
-    <option value="">{% trans "All Crops" %}</option>
-    <option value="Tomato">{% trans "Tomato" %}</option>
-    <option value="Maize">{% trans "Maize" %}</option>
-    <option value="Pepper">{% trans "Pepper" %}</option>
-    <option value="Yam">{% trans "Yam" %}</option>
-    <option value="Rice">{% trans "Rice" %}</option>
-    <option value="Cassava">{% trans "Cassava" %}</option>
-    <option value="Okra">{% trans "Okra" %}</option>
-    <option value="Onion">{% trans "Onion" %}</option>
-    <option value="Eggplant">{% trans "Eggplant" %}</option>
-    <option value="Carrot">{% trans "Carrot" %}</option>
-    <option value="Cucumber">{% trans "Cucumber" %}</option>
-    <option value="Watermelon">{% trans "Watermelon" %}</option>
-  </select>
+<!-- Search and Filter Section -->
+<form method="GET" class="row g-2 mb-4">
+  <div class="col-md-3">
+    <select name="category" class="form-select">
+      <option value="">{% trans "All Crops" %}</option>
+      <option value="Tomato"> {% trans "Tomato" %}</option> 
+      <option value="Maize"> {% trans "Maize" %}</option> 
+      <option value="Pepper"> {% trans "Pepper" %}</option> 
+      <option value="Yam"> {% trans "Yam" %}</option> 
+      <option value="Rice"> {% trans "Rice" %}</option>
+      <option value="Cassava"> {% trans "Cassava" %}</option> 
+      <option value="Okra"> {% trans "Okra" %}</option> 
+      <option value="Onion"> {% trans "Onion" %}</option> 
+      <option value="Eggplant"> {% trans "Eggplant" %}</option> 
+      <option value="Carrot"> {% trans "Carrot" %}</option> 
+      <option value="Cucumber"> {% trans "Cucumber" %}</option> 
+      <option value="Watermelon"> {% trans "Watermelon" %}</option> 
+    </select>
+  </div>
 
-  <input type="text" name="location" class="form-control mb-2" placeholder="Filter by location" {% if location %}value="{{ location }}"{% endif %}>
-  <input type="number" step="0.01" name="min_price" class="form-control mb-2" placeholder="Min price" value="{{ min_price }}">
-  <input type="number" step="0.01" name="max_price" class="form-control mb-2" placeholder="Max price" value="{{ max_price }}">
-  <button type="submit" class="btn btn-primary w-100">{% trans "Search" %}</button>
+  <div class="col-md-3">
+    <input type="text" name="location" class="form-control" placeholder="{% trans 'Filter by location' %}" {% if location %}value="{{ location }}"{% endif %}>
+  </div>
+
+  <div class="col-md-2">
+    <input type="number" step="0.01" name="min_price" class="form-control" placeholder="{% trans 'Min price' %}" value="{{ min_price }}">
+  </div>
+
+  <div class="col-md-2">
+    <input type="number" step="0.01" name="max_price" class="form-control" placeholder="{% trans 'Max price' %}" value="{{ max_price }}">
+  </div>
+
+  <div class="col-md-2">
+    <button type="submit" class="btn btn-primary w-100">
+      <i class="bi bi-search"></i> {% trans "Search" %}
+    </button>
+  </div>
 </form>
 
-<hr>
+<!-- Sorting -->
+<div class="d-flex justify-content-end mb-3">
+  <select class="form-select w-auto">
+    <option>{% trans "Sort by" %}</option>
+    <option value="newest">{% trans "Newest" %}</option>
+    <option value="oldest">{% trans "Oldest" %}</option>
+    <option value="price_low">{% trans "Price: Low to High" %}</option>
+    <option value="price_high">{% trans "Price: High to Low" %}</option>
+  </select>
+</div>
 
-<ul class="list-group">
+<!-- Products Grid -->
+<div class="row">
   {% for product in products %}
-    <li class="list-group-item">
-      <strong>{{ product.title }}</strong> - ₦{{ product.price }}<br>
-      {{ product.description }}<br>
-      {% trans "Quantity" %}: {{ product.quantity }}<br>
-      {% trans "Location" %}: {{ product.city }}, {{ product.state }}<br>
-      {% trans "Posted by" %}: {{ product.farmer.username }} on {{ product.date_posted|date:"M d, Y - H:i A" }}
-
-      {% if product.image %}
-        <br><img src="{{ product.image.url }}" width="100" class="mt-2 rounded">
-      {% endif %}
-
-    </li>
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-sm h-100">
+        {% if product.image %}
+          <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.title }}">
+        {% else %}
+          <img src="https://via.placeholder.com/300x200.png?text=No+Image" class="card-img-top" alt="default product image">
+        {% endif %}
+        
+        <div class="card-body">
+          <h5 class="card-title">{{ product.title }}</h5>
+          <p class="card-text text-muted small">
+            {{ product.description|truncatewords:100 }}
+          </p>
+          <p class="card-text mt-auto">
+            <span class="badge bg-success">₦{{ product.price|floatformat:2 }}</span><br>
+            <i class="bi bi-box-seam"></i> {% trans "Quantity" %}: {{ product.quantity }}<br>
+            <i class="bi bi-geo-alt"></i> {% trans "Location" %}: {{ product.city }}, {{ product.state }}
+          </p>
+          <small class="text-muted">
+            {% trans "Posted by" %} {{ product.farmer.username }}<br>
+            {{ product.date_posted|date:"M d, Y - H:i A" }}
+          </small>
+        </div>
+      </div>
+    </div>
   {% empty %}
-    <p>{% trans "No products listed yet." %}</p>
+    <div class="col-12 text-center py-5">
+      <i class="bi bi-shop text-muted" style="font-size: 3rem;"></i>
+      <p class="mt-2">{% trans "No products listed yet." %}</p>
+    </div>
   {% endfor %}
-</ul>
+</div>
 
+<!-- Pagination -->
 <nav class="mt-4">
-  <ul class="pagination">
+  <ul class="pagination justify-content-center">
     {% if page_obj.has_previous %}
       <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
     {% endif %}
