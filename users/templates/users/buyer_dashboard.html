@@ -5,8 +5,9 @@
 <div class="container my-4">
 
   <!-- Welcome -->
-  <div class="mb-4">
-    <h2>🛒 {% trans "Buyer Dashboard" %}</h2>
+  <div class="mb-4"
+    style="background: url('https://source.unsplash.com/1200x300/?market,farm') center/cover no-repeat;">
+    <h2 class="fw-bold">🛒 {% trans "Buyer Dashboard" %}</h2>
     <p class="lead">{% blocktrans %}Welcome, <strong>{{ request.user.username }}</strong>! Browse available crops, message farmers, and track your interests.{% endblocktrans %}</p>
   </div>
 

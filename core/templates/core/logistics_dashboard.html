@@ -141,5 +141,17 @@
     {% else %}
         <p class="text-muted">{% trans "You have no assigned deliveries yet." %}</p>
     {% endif %}
+
+    <!-- Tips -->
+    <div class="alert alert-info">
+        <h5 class="mb-2">💡 {% trans "Tips" %}</h5>
+        <ul class="mb-0">
+            <li> {% trans "Always confirm pickup and drop-off details before starting a delivery." %}</li> 
+            <li> {% trans "Keep buyers and farmers updated on delivery status (accepted, in transit, delivered)." %}</li> 
+            <li> {% trans "Check vehicle condition and fuel before accepting longer trips." %}</li> 
+            <li> {% trans "Handle products carefully to maintain quality during transit." %}</li> 
+            <li> {% trans "Respond quickly to new delivery requests to secure assignments." %}</li> 
+        </ul>
+    </div>
 </div>
 {% endblock %}

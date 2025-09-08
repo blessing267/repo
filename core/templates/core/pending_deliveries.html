@@ -19,12 +19,20 @@
                         {% if delivery.logistics_agent %}
                             <span class="badge bg-secondary">Assigned to {{ delivery.logistics_agent.username }}</span>
 
-                            {% if delivery.logistics_agent == user and delivery.status == 'pending' %}
-                                <div class="mt-2">
-                                    <a href="{% url 'update_delivery_status' delivery.id 'in_transit' %}" class="btn btn-primary btn-sm">{% trans "Mark In Transit" %}</a>
-                                    <a href="{% url 'update_delivery_status' delivery.id 'cancelled' %}" class="btn btn-danger btn-sm">{% trans "Cancel" %}</a>
-                                </div>
-                            {% endif %}
+                            {% if delivery.logistics_agent == user %}
+        <div class="mt-2">
+            {% if delivery.status == 'pending' %}
+                <a href="{% url 'update_delivery_status' delivery.id 'accepted' %}" class="btn btn-success btn-sm">{% trans "Accept" %}</a>
+                <a href="{% url 'update_delivery_status' delivery.id 'cancelled' %}" class="btn btn-danger btn-sm">{% trans "Cancel" %}</a>
+
+            {% elif delivery.status == 'accepted' %}
+                <a href="{% url 'update_delivery_status' delivery.id 'in_transit' %}" class="btn btn-primary btn-sm">{% trans "Mark In Transit" %}</a>
+
+            {% elif delivery.status == 'in_transit' %}
+                <a href="{% url 'update_delivery_status' delivery.id 'delivered' %}" class="btn btn-success btn-sm">{% trans "Mark Delivered" %}</a>
+            {% endif %}
+        </div>
+    {% endif %}
 
                         {% else %}
                             {# Only allow current user to accept if unassigned #}

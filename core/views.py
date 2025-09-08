@@ -36,6 +36,20 @@ def product_list(request):
         filters &= Q(category=category)
 
     products = products.filter(filters)
+    
+    # Handle sorting
+    sort = request.GET.get('sort')
+    if sort == 'newest':
+        products = products.order_by('-date_posted')
+    elif sort == 'oldest':
+        products = products.order_by('date_posted')
+    elif sort == 'price_low':
+        products = products.order_by('price')
+    elif sort == 'price_high':
+        products = products.order_by('-price')
+    else:
+        products = products.order_by('-date_posted')  # default
+    
     paginator = Paginator(products, 6)  # Show 6 products per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -148,7 +162,10 @@ def request_delivery(request, product_id):
 @login_required
 def view_pending_deliveries(request):
     if request.user.profile.role == 'logistics':
-        deliveries = DeliveryRequest.objects.filter(status='pending')
+        deliveries = DeliveryRequest.objects.filter(
+            logistics_agent=request.user
+        ).exclude(status__in=['delivered', 'cancelled']) | DeliveryRequest.objects.filter(status='pending')
+        deliveries = deliveries.distinct()
         return render(request, 'core/pending_deliveries.html', {'deliveries': deliveries})
     else:
         return redirect('home')

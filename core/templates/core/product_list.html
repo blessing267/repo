@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<h2 class="fw-bold">{% trans "Marketplace" %}</h2>
+<h2 class="fw-bold"><i class="bi bi-house-fill me-2"></i>{% trans "Marketplace" %}</h2>
 
 {% if is_farmer %}
   <a class="btn btn-success mb-3" href="{% url 'product_create' %}">
@@ -64,13 +64,14 @@
 
 <!-- Sorting -->
 <div class="d-flex justify-content-end mb-3">
-  <select class="form-select w-auto">
-    <option>{% trans "Sort by" %}</option>
-    <option value="newest">{% trans "Newest" %}</option>
-    <option value="oldest">{% trans "Oldest" %}</option>
-    <option value="price_low">{% trans "Price: Low to High" %}</option>
-    <option value="price_high">{% trans "Price: High to Low" %}</option>
-  </select>
+  <form method="GET" class="d-flex justify-content-end mb-3">
+    <select name="sort" class="form-select w-auto" onchange="this.form.submit()">
+      <option value="">{% trans "Sort by" %}</option>
+      <option value="newest" {% if request.GET.sort == "newest" %}selected{% endif %}>{% trans "Newest" %}</option>
+      <option value="oldest" {% if request.GET.sort == "oldest" %}selected{% endif %}>{% trans "Oldest" %}</option>
+      <option value="price_low" {% if request.GET.sort == "price_low" %}selected{% endif %}>{% trans "Price: Low to High" %}</option>
+      <option value="price_high" {% if request.GET.sort == "price_high" %}selected{% endif %}>{% trans "Price: High to Low" %}</option>
+    </select>
 </div>
 
 <!-- Products Grid -->
