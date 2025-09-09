@@ -28,22 +28,38 @@
                         </small>
                     </p>
 
-                    <!-- Existing buttons -->
-                    <a href="{% url 'buyer_dashboard' %}" class="btn btn-outline-primary mt-3">← {% trans "Back to Products" %}</a>
-                    <a href="{% url 'product_list' %}" class="btn btn-outline-primary mt-3"> {% trans "Go to Marketplace" %} →</a>
-                    <a href="{% url 'send_message' %}" class="btn btn-outline-primary mt-3"> {% trans "Message Farmer" %}</a>
-                
-                    <!--  Only show Edit/Delete if the logged-in user is the farmer --> 
+                    <!-- Existing buttons --> 
+                    <!-- Back button (visible to everyone) -->
+                    <button type="button" class="btn btn-outline-primary mt-3" onclick="window.history.back();">
+                        ← {% trans "Back" %}
+                    </button>
+
                     {% if request.user == product.farmer %}
+                        <!-- Farmer who posted the crop -->
                         <div class="mt-3">
                             <a href="{% url 'product_update' product.pk %}" class="btn btn-warning me-2">
-                                {% trans "Edit" %} 
+                                {% trans "Edit" %}
                             </a>
-                            <!-- Trigger Delete Modal -->
                             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                {% trans "Delete" %} 
+                                {% trans "Delete" %}
                             </button>
                         </div>
+
+                    {% elif request.user.profile.role == 'buyer' %}
+                        <!-- Buyer (not the farmer) -->
+                        <a href="{% url 'product_list' %}" class="btn btn-outline-primary mt-3">
+                            {% trans "Go to Marketplace" %} →
+                        </a>
+                        <a href="{% url 'send_message' %}" class="btn btn-outline-primary mt-3">
+                            {% trans "Message Farmer" %}
+                        </a>
+
+                    {% elif request.user.profile.role == 'farmer' %}
+                        <!-- Farmer who did NOT post -->
+                        <a href="{% url 'product_create' %}" class="btn btn-outline-primary mt-3">
+                            {% trans "Post Product" %} →
+                        </a>
+
                     {% endif %}
                 </div>
 
