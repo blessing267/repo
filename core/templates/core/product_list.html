@@ -99,6 +99,9 @@
             {% trans "Posted by" %} {{ product.farmer.username }}<br>
             {{ product.date_posted|date:"M d, Y - H:i A" }}
           </small>
+          <a href="{% url 'product_detail' product.pk %}" class="btn btn-primary w-100">
+            {% trans "View Details" %} 
+         </a>
         </div>
       </div>
     </div>

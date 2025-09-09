@@ -94,6 +94,31 @@ def product_detail(request, pk):
     return render(request, 'core/product_detail.html', {'product': product})
 
 @login_required
+def product_update(request, pk):
+    product = get_object_or_404(Product, pk=pk, farmer=request.user)  # restrict to farmer who posted it
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES, instance=product)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Product updated successfully!")
+            return redirect('product_detail', pk=product.pk)
+    else:
+        form = ProductForm(instance=product)
+    return render(request, 'core/product_update.html', {'form': form, 'product': product})
+
+
+@login_required
+def product_delete(request, pk):
+    product = get_object_or_404(Product, pk=pk, farmer=request.user)  # restrict to farmer
+    if request.method == 'POST':
+        product.delete()
+        messages.success(request, "Product deleted successfully!")
+        return redirect('product_list')
+    else:
+        messages.error(request, "Invalid request method.")
+        return redirect('product_detail', pk=pk)
+
+@login_required
 def inbox_view(request):
     inbox_messages = Message.objects.filter(recipient=request.user)
     return render(request, 'core/inbox.html', {'inbox_messages': inbox_messages})

@@ -1,0 +1,25 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-warning text-white">
+            <h4 class="mb-0 fw-bold"> {% trans "Edit Crop Post" %}</h4> 
+        </div>
+        <div class="card-body">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-warning w-100">
+                     {% trans "Save Changes" %} 
+                </button>
+                <a href="{% url 'product_detail' product.pk %}" class="btn btn-secondary w-100 mt-2">
+                    ← {% trans "Cancel" %}
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
