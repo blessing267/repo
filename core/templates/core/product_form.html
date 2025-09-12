@@ -9,12 +9,6 @@
             <h4 class="mb-0 fw-bold">{% trans "Post Your Crop for Sale" %}</h4>
         </div>
         <div class="card-body">
-
-            <!-- OFFLINE BANNER -->
-            <div id="offline-banner" style="display:none; background:yellow; padding:10px; text-align:center; margin-bottom:15px;">
-                You are offline. Changes will sync when internet returns. 
-            </div>
-
             <form id="productForm" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form|crispy }}
@@ -26,22 +20,4 @@
     </div>
 </div>
 
-<script>
-    const offlineBanner = document.getElementById('offline-banner');
-    
-    // Show/hide banner
-    function updateOnlineStatus() {
-        if (!navigator.onLine) {
-            offlineBanner.style.display = 'block';
-        } else {
-            offlineBanner.style.display = 'none';
-        }
-    }
-    
-    window.addEventListener('online', updateOnlineStatus);
-    window.addEventListener('offline', updateOnlineStatus);
-    // Run on page load
-    updateOnlineStatus();
-
-</script>
 {% endblock %}
