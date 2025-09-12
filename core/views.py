@@ -8,8 +8,6 @@ from django.contrib import messages
 from .utils import get_weather
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
-import json
-from django.http import JsonResponse
 
 # Create your views here.
 def home(request):
@@ -77,27 +75,6 @@ def product_list(request):
 
 def product_create(request):
     if request.method == 'POST':
-        # Check if request is JSON (from offline sync)
-        if request.content_type == 'application/json':
-            try:
-                data = json.loads(request.body)
-                product = Product(
-                    title=data.get('title', ''),
-                    description=data.get('description', ''),
-                    price=data.get('price', 0),
-                    quantity=data.get('quantity', 0),
-                    city=data.get('city', ''),
-                    state=data.get('state', ''),
-                    category=data.get('category', ''),
-                    farmer=request.user
-                    # Skip image for offline sync
-                )
-                product.save()
-                return JsonResponse({'status': 'success', 'message': 'Product synced', 'title': product.title})
-            except Exception as e:
-                return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
-        else:
-            # Normal form submission
             form = ProductForm(request.POST, request.FILES)
             if form.is_valid():
                 product = form.save(commit=False)
