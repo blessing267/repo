@@ -9,6 +9,12 @@
             <h4 class="mb-0 fw-bold">🌱 {% trans "Post Your Crop for Sale" %}</h4>
         </div>
         <div class="card-body">
+
+            <!-- OFFLINE BANNER -->
+            <div id="offline-banner" style="display:none; background:yellow; padding:10px; text-align:center; margin-bottom:15px;">
+                You are offline. Changes will sync when internet returns. 
+            </div>
+
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form|crispy }}
@@ -19,4 +25,71 @@
         </div>
     </div>
 </div>
+
+<script>
+    const form = document.getElementById('productForm');
+    const offlineBanner = document.getElementById('offline-banner');
+    
+    // Show/hide banner
+    function updateOnlineStatus() {
+        if (!navigator.onLine) {
+            offlineBanner.style.display = 'block';
+        } else {
+            offlineBanner.style.display = 'none';
+            syncOfflineProducts();
+        }
+    }
+    
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+    updateOnlineStatus();
+    
+    // Handle offline form submission
+    form.addEventListener('submit', function(e) {
+        if (!navigator.onLine) {
+            e.preventDefault();
+    
+            const formData = new FormData(form);
+            const productData = {};
+            formData.forEach((value, key) => { 
+                if(key !== 'image'){  // ignore image for offline prototype
+                    productData[key] = value;
+                }
+            });
+    
+            let offlineProducts = JSON.parse(localStorage.getItem('offlineProducts')) || [];
+            offlineProducts.push(productData);
+            localStorage.setItem('offlineProducts', JSON.stringify(offlineProducts));
+    
+            alert(' You are offline. Product saved locally and will sync when back online.'); 
+            form.reset();
+        }
+    });
+    
+    // Sync offline products when back online
+    function syncOfflineProducts() {
+        const offlineProducts = JSON.parse(localStorage.getItem('offlineProducts')) || [];
+        if (offlineProducts.length > 0) {
+            offlineProducts.forEach(data => {
+                fetch("{% url 'product_create' %}", {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(res => {
+                    if(res.ok){
+                        console.log('Product synced:', data.title);
+                    } else {
+                        console.error('Sync failed:', data.title);
+                    }
+                })
+                .catch(err => console.error('Sync error:', err));
+            });
+            localStorage.removeItem('offlineProducts');
+        }
+    }
+    </script>
 {% endblock %}
