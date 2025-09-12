@@ -51,16 +51,19 @@
                 {% if user.is_authenticated %}
                     {% if user.profile.role == 'logistics' %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'logistics_dashboard' %}">{% trans "Dashboard" %}</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">{% trans "Profile" %}</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'my_deliveries' %}">{% trans "My Deliveries" %}</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'pending_deliveries' %}">{% trans "Pending Deliveries" %}</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'inbox' %}">{% trans "Messages" %}</a></li>
                     {% elif user.profile.role == 'farmer' %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'farmer_dashboard' %}">{% trans "Dashboard" %}</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">{% trans "Profile" %}</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'product_list' %}">{% trans "Marketplace" %}</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'product_create' %}">{% trans "Post Product" %}</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'my_deliveries' %}">{% trans "My Deliveries" %}</a></li>  
                     {% elif user.profile.role == 'buyer' %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'buyer_dashboard' %}">{% trans "Dashboard" %}</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">{% trans "Profile" %}</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'product_list' %}">{% trans "Marketplace" %}</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'inbox' %}">{% trans "Message" %}</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'my_deliveries' %}">{% trans "My Deliveries" %}</a></li>

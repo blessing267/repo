@@ -18,3 +18,21 @@ class UserRegisterForm(UserCreationForm):
             user.save()
             user.profile.save()
         return user
+    
+class UserUpdateForm(forms.ModelForm):
+    email = forms.EmailField(required=True)
+
+    class Meta:
+        model = User
+        fields = ['username', 'email']
+
+class ProfileUpdateForm(forms.ModelForm):
+    date_of_birth = forms.DateField(
+        widget=forms.DateInput(attrs={'type': 'date'}),
+        required=False,
+        label="Date of Birth"
+    )
+    
+    class Meta:
+        model = Profile
+        fields = ['date_of_birth', 'address', 'city', 'state', 'country', 'photo']

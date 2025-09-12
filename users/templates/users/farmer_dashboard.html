@@ -3,7 +3,12 @@
 {% block content %}
 <div class="container my-3">
     <!-- Hero / Header -->
-    <h2 class="fw-bold">👨‍🌾 {% trans "Farmer Dashboard" %}</h2>
+    <h2 class="fw-bold">
+        👨‍🌾 {% trans "Farmer Dashboard" %}
+        {% if request.user.profile.verified %}
+            <span class="badge bg-success ms-2">✔ Verified Farmer</span>
+        {% endif %}
+    </h2>
     <p class="lead">{% blocktrans %}Manage your products, messages, and deliveries in one place.{% endblocktrans %}</p>
 
     {% if weather %}

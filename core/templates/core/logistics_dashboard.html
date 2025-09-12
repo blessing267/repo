@@ -5,7 +5,12 @@
 {% block content %}
 <div class="container my-4">
     <div class="p-4 bg-light rounded shadow-sm">
-        <h2 class="fw-bold">{% trans "Welcome" %}, {{ request.user.username }} <small class="text-muted">({% trans "Logistics Agent" %})</small></h2>
+        <h2 class="fw-bold">
+            {% trans "Welcome" %}, {{ request.user.username }} <small class="text-muted">({% trans "Logistics Agent" %})</small>
+            {% if request.user.profile.verified %}
+                <span class="badge bg-success ms-2">✔ Verified Agent</span>
+            {% endif %}
+        </h2>
         <p class="mb-0">{% trans "Manage your deliveries below." %}</p>
     </div>
 

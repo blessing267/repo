@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .forms import UserRegisterForm
+from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from core.forms import DeliveryRequestForm
 from .models import Profile
 from core.models import Product, Message, DeliveryRequest
@@ -140,6 +140,31 @@ def buyer_dashboard(request):
         'weather': weather,
         'location': location,
         'delivery_form': delivery_form,
+    })
+    
+@login_required
+def profile(request):
+    profile = request.user.profile
+    return render(request, 'users/profile.html', {'profile': profile})    
+    
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(request.POST, instance=request.user.profile)
+
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, "Your profile has been updated!")
+            return redirect('profile')
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+
+    return render(request, 'users/edit_profile.html', {
+        'u_form': u_form,
+        'p_form': p_form
     })
 
 def password_reset(request):
