@@ -18,6 +18,14 @@ CROP_CHOICES = [
     ('Watermelon', 'Watermelon'),
 ]
 
+class PriceHistory(models.Model):
+    product = models.ForeignKey('Product', on_delete=models.CASCADE, related_name="price_history")
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    date_recorded = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.product.title} - {self.price} ({self.date_recorded})"
+
 class Product(models.Model):
     farmer = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(_("Title"), max_length=100)
@@ -32,6 +40,14 @@ class Product(models.Model):
 
     def __str__(self):
         return self.title
+    
+    def save(self, *args, **kwargs):
+        if self.pk:  # only check if this product already exists
+            old_price = Product.objects.get(pk=self.pk).price
+            if self.price != old_price:
+                from .models import PriceHistory  # local import to avoid circular reference
+                PriceHistory.objects.create(product=self, price=self.price)
+        super().save(*args, **kwargs)
     
 class Message(models.Model):
     sender = models.ForeignKey(User, related_name='sent_messages', on_delete=models.CASCADE)

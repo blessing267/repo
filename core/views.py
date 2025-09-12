@@ -91,7 +91,11 @@ def product_create(request):
 @login_required
 def product_detail(request, pk):
     product = get_object_or_404(Product, pk=pk)
-    return render(request, 'core/product_detail.html', {'product': product})
+    history = product.price_history.order_by("date_recorded")  # thanks to related_name
+    return render(request, 'core/product_detail.html', {
+        'product': product,
+        'history': history,
+    })
 
 @login_required
 def product_update(request, pk):

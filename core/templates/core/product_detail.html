@@ -28,7 +28,47 @@
                         </small>
                     </p>
 
-                    <!-- Existing buttons --> 
+                    <!-- PRICE HISTORY CHART -->
+                    <h3 class="mt-4">Price Over Time</h3>
+                    <canvas id="priceChart" width="400" height="200"></canvas>
+                </div>
+
+                <!-- Load Chart.js at the end of the template -->
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script>
+                    const ctx = document.getElementById('priceChart').getContext('2d');
+                    const priceChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: [{% for h in history %}"{{ h.date_recorded|date:'M d, Y' }}",{% endfor %}],
+                            datasets: [{
+                                label: 'Price (₦)',
+                                data: [{% for h in history %}{{ h.price }},{% endfor %}],
+                                borderColor: 'blue',
+                                backgroundColor: 'rgba(0, 123, 255, 0.2)',
+                                fill: true,
+                                tension: 0.2,
+                                pointRadius: 4,
+                                pointHoverRadius: 6
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: { display: true },
+                                title: {
+                                    display: true,
+                                    text: 'Price History for {{ product.title }}'
+                                }
+                            },
+                            scales: {
+                                x: { title: { display: true, text: 'Date' } },
+                                y: { title: { display: true, text: 'Price (₦)' }, beginAtZero: false }
+                            }
+                        }
+                    });
+                </script> 
+                
                     <!-- Back button (visible to everyone) -->
                     <button type="button" class="btn btn-outline-primary mt-3" onclick="window.history.back();">
                         ← {% trans "Back" %}
