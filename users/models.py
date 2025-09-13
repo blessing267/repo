@@ -17,6 +17,6 @@ class Profile(models.Model):
     city = models.CharField(max_length=100, blank=True, null=True)
     state = models.CharField(max_length=100, blank=True, null=True)
     country = models.CharField(max_length=100, blank=True, null=True)
-    photo = models.ImageField(upload_to='profile_photos/', default='profile_photos/default.png')
+    photo = models.ImageField(upload_to='profile_photos/', blank=True, null=True, default='profile_photos/default.png')
     def __str__(self):
         return f"{self.user.username} - {self.role}"

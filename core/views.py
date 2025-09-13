@@ -8,6 +8,8 @@ from django.contrib import messages
 from .utils import get_weather
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
+import requests
+from django.conf import settings
 
 # Create your views here.
 def home(request):
@@ -279,16 +281,30 @@ def logistics_dashboard(request):
     # Deliveries assigned to this logistics agent
     assigned_deliveries = DeliveryRequest.objects.filter(logistics_agent=request.user)
 
-    # Unassigned pending deliveries (available to accept)
-    # unassigned_deliveries = DeliveryRequest.objects.filter(status='pending')
+    # Weather Data
+    location = request.GET.get('city') or request.user.profile.location or "Ibadan"
+    weather = None
+    try:
+        url = f"http://api.openweathermap.org/data/2.5/weather?q={location}&appid={settings.OPENWEATHER_API_KEY}&units=metric"
+        response = requests.get(url)
+        data = response.json()
+        if data.get("main"):
+            weather = {
+                "temp": data["main"]["temp"],
+                "description": data["weather"][0]["description"].title(),
+                "icon": data["weather"][0]["icon"]
+            }
+    except:
+        pass
     
     context = {
         'assigned_deliveries': assigned_deliveries,
-        # 'unassigned_deliveries': unassigned_deliveries,
         'total_deliveries': assigned_deliveries.count(),
         'pending_deliveries': assigned_deliveries.filter(status='pending').count(),
         'in_transit_deliveries': assigned_deliveries.filter(status='in_transit').count(),
         'delivered_deliveries': assigned_deliveries.filter(status='delivered').count(),
+        'weather': weather,
+        'location': location,
     }
 
     return render(request, 'core/logistics_dashboard.html', context)
