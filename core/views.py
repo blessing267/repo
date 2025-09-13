@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Product, Message, DeliveryRequest
+from .models import Product, Message, DeliveryRequest, CartItem
 from .forms import ProductForm, MessageForm, DeliveryRequestForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -124,6 +124,76 @@ def product_delete(request, pk):
     else:
         messages.error(request, "Invalid request method.")
         return redirect('product_detail', pk=pk)
+
+@login_required
+def add_to_cart(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+
+    # Only buyers can add to cart
+    if request.user.profile.role != 'buyer':
+        messages.error(request, "Only buyers can add products to the cart.")
+        return redirect('product_list')
+
+    cart_item, created = CartItem.objects.get_or_create(
+        user=request.user,
+        product=product,
+        defaults={'quantity': 1}
+    )
+
+    if not created:
+        cart_item.quantity += 1
+        cart_item.save()
+
+    messages.success(request, f"{product.title} added to your cart.")
+    return redirect('view_cart')
+
+@login_required
+def view_cart(request):
+    if request.user.profile.role != 'buyer':
+        messages.error(request, "Only buyers have a cart.")
+        return redirect('product_list')
+
+    cart_items = CartItem.objects.filter(user=request.user)
+    total = sum(item.get_total_price() for item in cart_items)
+    return render(request, 'core/cart.html', {
+        'cart_items': cart_items,
+        'total': total
+    })
+
+@login_required
+def remove_from_cart(request, item_id):
+    if request.user.profile.role != 'buyer':
+        messages.error(request, "Only buyers have a cart.")
+        return redirect('product_list')
+
+    cart_item = get_object_or_404(CartItem, id=item_id, user=request.user)
+    cart_item.delete()
+    messages.success(request, f"{cart_item.product.title} removed from your cart.")
+    return redirect('view_cart')
+
+@login_required
+def checkout(request):
+    cart_items = CartItem.objects.filter(user=request.user)
+    total = sum(item.get_total_price() for item in cart_items)
+
+    # For now, just render a simple template
+    return render(request, 'core/checkout.html', {
+        'cart_items': cart_items,
+        'total': total
+    })
+
+@login_required
+def confirm_purchase(request):
+    cart_items = CartItem.objects.filter(user=request.user)
+    if not cart_items.exists():
+        messages.error(request, "Your cart is empty.")
+        return redirect('product_list')
+
+    # Here you could add payment integration later
+    cart_items.delete()  # Clear the cart after purchase
+    messages.success(request, "Purchase confirmed! Thank you for your order.")
+    return redirect('product_list')
+
 
 @login_required
 def inbox_view(request):

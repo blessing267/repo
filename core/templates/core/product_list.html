@@ -102,6 +102,11 @@
           <a href="{% url 'product_detail' product.pk %}" class="btn btn-primary w-100">
             {% trans "View Details" %} 
          </a>
+        {% if request.user.is_authenticated and request.user.profile.role == 'buyer' %}
+            <a href="{% url 'add_to_cart' product.pk %}" class="btn btn-success w-100">
+              {% trans "Add to Cart" %}
+            </a>
+        {% endif %}
         </div>
       </div>
     </div>
