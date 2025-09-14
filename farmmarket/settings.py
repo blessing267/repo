@@ -151,6 +151,11 @@ LOGOUT_REDIRECT_URL = 'login'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH = BASE_DIR / "sent_emails"  # folder where emails will be saved
+DEFAULT_FROM_EMAIL = "noreply@farmmarket.com"
+
+
 USE_I18N = True
 USE_L10N = True
 

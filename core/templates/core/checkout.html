@@ -39,7 +39,7 @@
         </div>
 
         <!-- Confirm Purchase -->
-        <form method="post" action="{% url 'confirm_purchase' %}">
+        <form method="post" action="{% url 'checkout' %}">
             {% csrf_token %}
             <button type="submit" class="btn btn-success w-100">{% trans "Confirm Purchase" %}</button>
         </form>

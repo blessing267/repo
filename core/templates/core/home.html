@@ -31,7 +31,13 @@
                 <img src="{% static 'core/images/marketplace.png' %}" class="card-img-top" alt="Direct Marketplace">
                 <div class="card-body text-center">
                     <h2 class="card-title">🛒</h2>
-                    <h4 class="card-title fw-bold">{% trans "Direct Marketplace" %}</h4> 
+                    <h4 class="card-title fw-bold">
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'product_list' %}" class="text-dark text-decoration-none">{% trans "Direct Marketplace" %}</a>
+                        {% else %}
+                            <a href="{% url 'login' %}" class="text-dark text-decoration-none">{% trans "Direct Marketplace" %}</a>
+                        {% endif %}
+                    </h4>                    
                     <p class="card-text">{% trans "Farmers post their crops for sale and buyers purchase directly." %}</p>
                 </div>
             </div>
@@ -43,7 +49,13 @@
                 <img src="{% static 'core/images/logistics.png' %}" class="card-img-top" alt="Logistics Service">
                 <div class="card-body text-center">
                     <h2 class="card-title">🚚</h2>
-                    <h4 class="card-title fw-bold">{% trans "Logistics <br> Service" %}</h4>
+                    <h4 class="card-title fw-bold">
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'my_deliveries' %}" class="text-dark text-decoration-none">{% trans "Logistics <br> Service" %}</a>
+                        {% else %}
+                            <a href="{% url 'login' %}" class="text-dark text-decoration-none">{% trans "Logistics <br> Service" %}</a>
+                        {% endif %}
+                    </h4>
                     <p class="card-text">{% trans "Coordinate third-party or group deliveries to transport farm produce efficiently." %}</p>
                 </div>
             </div>
@@ -55,7 +67,13 @@
                 <img src="{% static 'core/images/weather.png' %}" class="card-img-top" alt="Weather Updates">
                 <div class="card-body text-center">
                     <h2 class="card-title">🌤</h2>
-                    <h4 class="card-title fw-bold">{% trans "Weather <br> Updates" %}</h4> 
+                    <h4 class="card-title fw-bold">
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'dashboard' %}" class="text-dark text-decoration-none">{% trans "Weather <br> Updates" %}</a>
+                        {% else %}
+                            <a href="{% url 'login' %}" class="text-dark text-decoration-none">{% trans "Weather <br> Updates" %}</a>
+                        {% endif %}
+                    </h4> 
                     <p class="card-text">{% trans "Stay informed with real-time weather forecasts for your farm or region." %}</p>
                 </div>
             </div>
@@ -67,7 +85,13 @@
                 <img src="{% static 'core/images/messaging.png' %}" class="card-img-top" alt="Messaging System">
                 <div class="card-body text-center">
                     <h2 class="card-title">💬</h2>
-                    <h4 class="card-title fw-bold">{% trans "Messaging System" %}</h4>
+                    <h4 class="card-title fw-bold">
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'inbox' %}" class="text-dark text-decoration-none">{% trans "Messaging System" %}</a>
+                        {% else %}
+                            <a href="{% url 'login' %}" class="text-dark text-decoration-none">{% trans "Messaging System" %}</a>
+                        {% endif %}
+                    </h4>
                     <p class="card-text">{% trans "Securely communicate buyers, farmers and logistics agents to negotiate and arrange deliveries." %}</p>
                 </div>
             </div>

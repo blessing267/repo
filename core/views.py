@@ -1,15 +1,18 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Product, Message, DeliveryRequest, CartItem
-from .forms import ProductForm, MessageForm, DeliveryRequestForm
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.core.mail import send_mail
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
-from django.contrib import messages
-from .utils import get_weather
 from django.db.models import Q
-from django.utils.translation import gettext_lazy as _
-import requests
 from django.conf import settings
+
+from .models import Product, Message, DeliveryRequest, CartItem, Order, OrderItem
+from .forms import ProductForm, MessageForm, DeliveryRequestForm
+from django.utils.translation import gettext_lazy as _
+from .utils import get_weather
+import requests
+
 
 # Create your views here.
 def home(request):
@@ -174,25 +177,56 @@ def remove_from_cart(request, item_id):
 @login_required
 def checkout(request):
     cart_items = CartItem.objects.filter(user=request.user)
-    total = sum(item.get_total_price() for item in cart_items)
+    if request.method == 'POST':
+        if not cart_items.exists():
+            messages.error(request, "Your cart is empty.")
+            return redirect("product_list")
 
-    # For now, just render a simple template
+        total = sum(item.get_total_price() for item in cart_items)
+        order = Order.objects.create(buyer=request.user, total_price=total)
+
+        # Create OrderItems and notify farmers
+        notified_farmers = set()
+        for item in cart_items:
+            OrderItem.objects.create(
+                order=order,
+                product=item.product,
+                quantity=item.quantity,
+                price=item.product.price,
+            )
+            farmer = item.product.farmer
+            if farmer.id not in notified_farmers:
+                Message.objects.create(
+                    sender=request.user,
+                    recipient=farmer,
+                    subject="New Order Notification",
+                    body=f"Hi {farmer.username}, your product(s) have been purchased by {request.user.username}."
+                )
+                if farmer.email:
+                    send_mail(
+                        subject="New Order Notification",
+                        message=f"Hello {farmer.username}, your product(s) have been purchased by {request.user.username}.",
+                        from_email=settings.DEFAULT_FROM_EMAIL,
+                        recipient_list=[farmer.email],
+                    )
+                notified_farmers.add(farmer.id)
+
+        # Empty cart
+        cart_items.delete()
+        messages.success(request, "Your order was placed successfully!")
+        return redirect("orders")
+
+    # GET request: just show checkout page
+    total = sum(item.get_total_price() for item in cart_items)
     return render(request, 'core/checkout.html', {
         'cart_items': cart_items,
         'total': total
     })
 
 @login_required
-def confirm_purchase(request):
-    cart_items = CartItem.objects.filter(user=request.user)
-    if not cart_items.exists():
-        messages.error(request, "Your cart is empty.")
-        return redirect('product_list')
-
-    # Here you could add payment integration later
-    cart_items.delete()  # Clear the cart after purchase
-    messages.success(request, "Purchase confirmed! Thank you for your order.")
-    return redirect('product_list')
+def orders(request):
+    orders = Order.objects.filter(buyer=request.user).order_by('-created_at')
+    return render(request, 'core/orders.html', {'orders': orders})
 
 
 @login_required
