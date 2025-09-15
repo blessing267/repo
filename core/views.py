@@ -59,11 +59,11 @@ def product_list(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    #city = location or "Ibadan"
-    #try:
-        #weather = get_weather(city)
-    #except Exception:
-        #weather = None
+    city = location or "Ibadan"
+    try:
+        weather = get_weather(city)
+    except Exception:
+        weather = None
 
     return render(request, 'core/product_list.html', {
         'products': page_obj,
@@ -74,7 +74,7 @@ def product_list(request):
         'max_price': max_price,
         'category': category,
         'page_obj': page_obj,
-        #'weather': weather,
+        'weather': weather,
         
     })
 
