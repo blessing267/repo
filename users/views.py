@@ -127,12 +127,15 @@ def buyer_dashboard(request):
         delivery_form = DeliveryRequestForm(request.POST)
         if delivery_form.is_valid():
             delivery = delivery_form.save(commit=False)
-            delivery.requester = request.user  # or .farmer for farmer
+            delivery.buyer = request.user  # or .farmer for farmer
             delivery.save()
             messages.success(request, "Delivery request submitted!")
             return redirect('buyer_dashboard')
     else:
         delivery_form = DeliveryRequestForm()
+
+    # Buyer deliveries
+    my_deliveries = DeliveryRequest.objects.filter(buyer=request.user)
 
     return render(request, 'users/buyer_dashboard.html', {
         'recent_products': recent_products,
@@ -140,6 +143,7 @@ def buyer_dashboard(request):
         'weather': weather,
         'location': location,
         'delivery_form': delivery_form,
+        'my_deliveries': my_deliveries,
     })
     
 @login_required

@@ -79,8 +79,16 @@ class DeliveryRequest(models.Model):
     pickup_location = models.CharField(max_length=100)
     destination = models.CharField(max_length=100)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    delivery_cost = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     requested_for_group = models.BooleanField(default=False)
     date_requested = models.DateTimeField(auto_now_add=True)
+
+    def calculate_delivery_cost(self):
+        # Fake cost calculation: ₦100 per km (simulate distance as random for prototype)
+        import random
+        distance_km = random.randint(1, 50)
+        self.delivery_cost = distance_km * 100
+        self.save()
 
     def __str__(self):
         return f"Delivery for {self.product.title} - {self.status}"    

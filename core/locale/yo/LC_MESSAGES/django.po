@@ -1,27 +1,27 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# Copyright (C) 2025 FarmMarket
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Blessing Omokaro <blessing@example.com>, 2025.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: FarmMarket 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-02 18:07+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2025-09-14 23:42+0100\n"
+"PO-Revision-Date: 2025-09-14 23:50+0100\n"
+"Last-Translator: Blessing Omokaro <blessing@example.com>\n"
+"Language-Team: Yoruba <yo@li.org>\n"
 "Language: yo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: models.py:23
+#: models.py:31
 msgid "Title"
 msgstr "Akọle"
 
-#: models.py:24 templates/core/product_detail.html:22
+#: models.py:32 templates/core/product_detail.html:23
 msgid "Description"
 msgstr "Apejuwe"
 
@@ -31,54 +31,59 @@ msgstr "Apejuwe"
 msgid "FarmMarket"
 msgstr "Kini Idi Ti O Fi Lo FarmMarket?"
 
-#: templates/core/base.html:60 templates/core/base.html:65
-#: templates/core/base.html:70
+#: templates/core/base.html:53 templates/core/base.html:59
+#: templates/core/base.html:65
 msgid "Dashboard"
 msgstr "Dasibodu"
 
-#: templates/core/base.html:61 templates/core/base.html:68
-#: templates/core/base.html:73
+#: templates/core/base.html:54 templates/core/base.html:60
+#: templates/core/base.html:66
+msgid "Profile"
+msgstr "Profaili"
+
+#: templates/core/base.html:55 templates/core/base.html:63
+#: templates/core/base.html:69
 msgid "My Deliveries"
 msgstr "Awọn Ifijiṣẹ Mi"
 
-#: templates/core/base.html:62 templates/core/pending_deliveries.html:6
+#: templates/core/base.html:56 templates/core/pending_deliveries.html:6
 msgid "Pending Deliveries"
 msgstr "Awọn Ifijiṣẹ Ti N Duro"
 
-#: templates/core/base.html:63
+#: templates/core/base.html:57
 msgid "Messages"
 msgstr "Awọn Ifiranṣẹ"
 
-#: templates/core/base.html:66 templates/core/base.html:71
+#: templates/core/base.html:61 templates/core/base.html:67
 #: templates/core/product_list.html:6
 msgid "Marketplace"
 msgstr "Ọja"
 
-#: templates/core/base.html:67
+#: templates/core/base.html:62 templates/core/product_detail.html:100
 msgid "Post Product"
 msgstr "Fi Ọja Sọ́"
 
-#: templates/core/base.html:72
-msgid "Message"
-msgstr "Ifiranṣẹ"
+#: templates/core/base.html:68
+msgid "View Cart"
+msgstr "Wo Kàtì"
 
-#: templates/core/base.html:75
+#: templates/core/base.html:71
 msgid "Home"
 msgstr "Oju Ile"
 
-#: templates/core/base.html:78 templates/core/home.html:14
+#: templates/core/base.html:74 templates/core/home.html:19
 msgid "Login"
 msgstr "Wọlé"
 
-#: templates/core/base.html:79 templates/core/home.html:15
+#: templates/core/base.html:75 templates/core/home.html:20
 msgid "Register"
 msgstr "Forukọsilẹ"
 
-#: templates/core/base.html:87 templates/core/logistics_dashboard.html:8
+#: templates/core/base.html:83 templates/core/logistics_dashboard.html:9
 msgid "Welcome"
 msgstr "Kaabo"
 
-#: templates/core/base.html:91 templates/core/home.html:12
+#: templates/core/base.html:87
 msgid "Logout"
 msgstr "Jade"
 
@@ -86,63 +91,139 @@ msgstr "Jade"
 msgid "All rights reserved."
 msgstr "Gbogbo awọn ẹtọ ti wa ni fipamọ."
 
-#: templates/core/home.html:6
+#: templates/core/cart.html:6
+msgid "My Cart"
+msgstr "Kàtì Mi"
+
+#: templates/core/cart.html:13 templates/core/checkout.html:13
+#: templates/core/logistics_dashboard.html:84
+#: templates/core/logistics_dashboard.html:121
+#: templates/core/my_deliveries.html:14
+msgid "Product"
+msgstr "Ọja"
+
+#: templates/core/cart.html:14 templates/core/checkout.html:14
+#: templates/core/product_detail.html:19
+msgid "Price"
+msgstr "Iye owo"
+
+#: templates/core/cart.html:15 templates/core/checkout.html:15
+#: templates/core/my_deliveries.html:15 templates/core/product_detail.html:20
+#: templates/core/product_list.html:95
+msgid "Quantity"
+msgstr "Iye"
+
+#: templates/core/cart.html:16 templates/core/cart.html:44
+#: templates/core/checkout.html:16 templates/core/checkout.html:38
+#: templates/core/orders.html:11 templates/core/orders.html:23
+msgid "Total"
+msgstr "Apapọ"
+
+#: templates/core/cart.html:17 templates/core/logistics_dashboard.html:88
+#: templates/core/logistics_dashboard.html:126
+msgid "Action"
+msgstr "Iṣe"
+
+#: templates/core/cart.html:34
+msgid "Remove"
+msgstr "Yọ"
+
+#: templates/core/cart.html:45
+msgid "Proceed to Checkout"
+msgstr "Tẹsiwaju Si Ṣayẹwo"
+
+#: templates/core/cart.html:48 templates/core/checkout.html:48
+msgid "Your cart is empty."
+msgstr "Kàtì rẹ ṣofo."
+
+#: templates/core/cart.html:49 templates/core/checkout.html:49
+#, fuzzy
+#| msgid "Post Product"
+msgid "Browse Products"
+msgstr "Fi Ọja Sọ́"
+
+#: templates/core/checkout.html:6
+msgid "Checkout"
+msgstr "Ṣayẹwo"
+
+#: templates/core/checkout.html:44
+msgid "Confirm Purchase"
+msgstr "Jẹrisi Rira"
+
+#: templates/core/home.html:12
 msgid "Welcome to FarmMarket"
 msgstr "Kaabo si FarmMarket"
 
-#: templates/core/home.html:7
+#: templates/core/home.html:13
 msgid "Connecting farmers and buyers directly for fresh, affordable produce."
 msgstr "Ṣiṣopọ awọn agbe ati awọn onra taara fun ọja tuntun, to wulo."
 
-#: templates/core/home.html:10
+#: templates/core/home.html:16
 msgid "Hello"
 msgstr "Bawo"
 
-#: templates/core/home.html:11
+#: templates/core/home.html:17
 msgid "Go to Dashboard"
 msgstr "Lọ si Dasibodu"
 
-#: templates/core/home.html:21
+#: templates/core/home.html:26
 msgid "Why Use FarmMarket?"
 msgstr "Kini Idi Ti O Fi Lo FarmMarket?"
 
-#: templates/core/home.html:24
+#: templates/core/home.html:37 templates/core/home.html:41
+#: templates/core/home.html:45
 msgid "Direct Marketplace"
 msgstr "Ọja Taara"
 
-#: templates/core/home.html:25
+#: templates/core/home.html:49
 msgid "Farmers post their crops for sale and buyers purchase directly."
 msgstr "Awọn agbe nfi ọja wọn ranṣẹ fun tita ati awọn onra ra taara."
 
-#: templates/core/home.html:28
-msgid "Weather Updates"
+#: templates/core/home.html:62 templates/core/home.html:64
+msgid "Logistics <br> Service"
+msgstr "Iṣẹ Lojisti <br>"
+
+#: templates/core/home.html:67
+msgid ""
+"Coordinate third-party or group deliveries to transport farm produce "
+"efficiently."
+msgstr "Ṣakoso awọn ifijiṣẹ ẹgbẹ tabi awọn ẹni-kẹta lati gbe ọja oko ni daradara."
+
+#: templates/core/home.html:80 templates/core/home.html:82
+#, fuzzy
+#| msgid "Weather Updates"
+msgid "Weather <br> Updates"
 msgstr "Awọn Imudojuiwọn Oju-ọjọ"
 
-#: templates/core/home.html:29
+#: templates/core/home.html:85
 msgid "Stay informed with real-time weather forecasts for your farm or region."
 msgstr ""
 "Wa ni imudojuiwọn pẹlu awọn asọtẹlẹ oju-ọjọ akoko gidi fun oko rẹ tabi "
 "agbegbe rẹ."
 
-#: templates/core/home.html:32
+#: templates/core/home.html:98 templates/core/home.html:100
 msgid "Messaging System"
 msgstr "Eto Ifiranṣẹ"
 
-#: templates/core/home.html:33
+#: templates/core/home.html:103
+#, fuzzy
+#| msgid ""
+#| "Securely communicate between buyers and farmers to negotiate and arrange "
+#| "deliveries."
 msgid ""
-"Securely communicate between buyers and farmers to negotiate and arrange "
-"deliveries."
+"Securely communicate buyers, farmers and logistics agents to negotiate and "
+"arrange deliveries."
 msgstr ""
 "Bá a ṣe n ba ara wọn sọrọ ni aabo laarin awọn onra ati awọn agbe lati ṣe "
 "adehun ati ṣeto awọn ifijiṣẹ."
 
-#: templates/core/home.html:38
+#: templates/core/home.html:112
 msgid "FarmMarket — Fresh from the farm to your table."
 msgstr "FarmMarket — Tuntun lati oko si tabili rẹ."
 
 #: templates/core/inbox.html:6
 msgid "Your Inbox"
-msgstr ""
+msgstr "Apo-iwọle Rẹ"
 
 #: templates/core/inbox.html:11
 #, fuzzy
@@ -150,23 +231,23 @@ msgstr ""
 msgid "Send New Message"
 msgstr "Ifiranṣẹ"
 
-#: templates/core/inbox.html:14 templates/core/send_message.html:23
+#: templates/core/inbox.html:14 templates/core/send_message.html:26
 #, fuzzy
 #| msgid "Messages"
 msgid "Sent Messages"
 msgstr "Awọn Ifiranṣẹ"
 
-#: templates/core/inbox.html:25 templates/core/pending_deliveries.html:15
+#: templates/core/inbox.html:25
 msgid "From:"
-msgstr ""
+msgstr "Lati ọdọ:"
 
 #: templates/core/inbox.html:30
 msgid "Sent at:"
-msgstr ""
+msgstr "Ti firanṣẹ ni:"
 
 #: templates/core/inbox.html:32
 msgid "New"
-msgstr ""
+msgstr "Tuntun"
 
 #: templates/core/inbox.html:40
 #, fuzzy
@@ -174,118 +255,143 @@ msgstr ""
 msgid "You have no messages yet."
 msgstr "O ko ni awọn ifijiṣẹ ti a yàn sibẹsibẹ."
 
-#: templates/core/logistics_dashboard.html:8
+#: templates/core/logistics_dashboard.html:9
 #: templates/core/my_deliveries.html:29
 msgid "Logistics Agent"
 msgstr "Agennti Lojisti"
 
-#: templates/core/logistics_dashboard.html:9
+#: templates/core/logistics_dashboard.html:14
 msgid "Manage your deliveries below."
 msgstr "Ṣakoso awọn ifijiṣẹ rẹ ni isalẹ."
 
-#: templates/core/logistics_dashboard.html:14
+#: templates/core/logistics_dashboard.html:21
+#: templates/core/product_list.html:19
+msgid "Weather in"
+msgstr "Oju-ọjọ ni"
+
+#: templates/core/logistics_dashboard.html:31
+#, fuzzy
+#| msgid "Weather in"
+msgid "Check Weather"
+msgstr "Oju-ọjọ ni"
+
+#: templates/core/logistics_dashboard.html:36
 msgid "Browse Marketplace"
 msgstr "Ṣawari Ọja"
 
-#: templates/core/logistics_dashboard.html:15
+#: templates/core/logistics_dashboard.html:37
 #, python-format
 msgid "View Inbox (%(unread_messages)s)"
 msgstr "Wo Apo-iwọle (%(unread_messages)s)"
 
-#: templates/core/logistics_dashboard.html:23
+#: templates/core/logistics_dashboard.html:45
 msgid "Total Deliveries"
 msgstr "Apapọ Awọn Ifijiṣẹ"
 
-#: templates/core/logistics_dashboard.html:31
-#: templates/core/logistics_dashboard.html:122
+#: templates/core/logistics_dashboard.html:53
+#: templates/core/logistics_dashboard.html:144
 msgid "Pending"
 msgstr "Ti nduro"
 
-#: templates/core/logistics_dashboard.html:39
-#: templates/core/logistics_dashboard.html:118
+#: templates/core/logistics_dashboard.html:61
+#: templates/core/logistics_dashboard.html:140
 msgid "In Transit"
 msgstr "Ninu Irinna"
 
-#: templates/core/logistics_dashboard.html:47
-#: templates/core/logistics_dashboard.html:120
+#: templates/core/logistics_dashboard.html:69
+#: templates/core/logistics_dashboard.html:142
 msgid "Delivered"
 msgstr "Ti firanṣẹ"
 
-#: templates/core/logistics_dashboard.html:55
+#: templates/core/logistics_dashboard.html:77
 msgid "Available Deliveries to Accept"
 msgstr "Awọn ifijiṣẹ ti o wa lati gba"
 
-#: templates/core/logistics_dashboard.html:62
-#: templates/core/logistics_dashboard.html:99
-#: templates/core/my_deliveries.html:14
-msgid "Product"
-msgstr "Ọja"
-
-#: templates/core/logistics_dashboard.html:63
-#: templates/core/logistics_dashboard.html:100
+#: templates/core/logistics_dashboard.html:85
+#: templates/core/logistics_dashboard.html:122
 #: templates/core/my_deliveries.html:24
 msgid "Farmer"
 msgstr "Agbe"
 
-#: templates/core/logistics_dashboard.html:64
-#: templates/core/logistics_dashboard.html:101
+#: templates/core/logistics_dashboard.html:86
+#: templates/core/logistics_dashboard.html:123
 #: templates/core/my_deliveries.html:16
 msgid "Pickup"
 msgstr "Gba"
 
-#: templates/core/logistics_dashboard.html:65
-#: templates/core/logistics_dashboard.html:102
+#: templates/core/logistics_dashboard.html:87
+#: templates/core/logistics_dashboard.html:124
 #: templates/core/my_deliveries.html:17
 msgid "Destination"
 msgstr "Ibi-ajo"
 
-#: templates/core/logistics_dashboard.html:66
-#: templates/core/logistics_dashboard.html:104
-msgid "Action"
-msgstr "Iṣe"
-
-#: templates/core/logistics_dashboard.html:79
+#: templates/core/logistics_dashboard.html:101
+#: templates/core/pending_deliveries.html:25
 msgid "Accept"
 msgstr "Gba"
 
-#: templates/core/logistics_dashboard.html:88
+#: templates/core/logistics_dashboard.html:110
 msgid "No pending deliveries available to accept."
 msgstr "Ko si awọn ifijiṣẹ ti nduro lati gba."
 
-#: templates/core/logistics_dashboard.html:93
+#: templates/core/logistics_dashboard.html:115
 msgid "My Assigned Deliveries"
 msgstr "Awọn Ifijiṣẹ Ti Mo Yàn"
 
-#: templates/core/logistics_dashboard.html:103
+#: templates/core/logistics_dashboard.html:125
 #: templates/core/my_deliveries.html:19
 msgid "Status"
 msgstr "Ipo"
 
-#: templates/core/logistics_dashboard.html:116
+#: templates/core/logistics_dashboard.html:138
 msgid "Accepted"
 msgstr "Ti gba"
 
-#: templates/core/logistics_dashboard.html:128
-#: templates/core/pending_deliveries.html:24
+#: templates/core/logistics_dashboard.html:150
+#: templates/core/pending_deliveries.html:29
 msgid "Mark In Transit"
 msgstr "Samisi bi nrin"
 
-#: templates/core/logistics_dashboard.html:131
+#: templates/core/logistics_dashboard.html:153
+#: templates/core/pending_deliveries.html:32
 msgid "Mark Delivered"
 msgstr "Samisi bi ti firanṣẹ"
 
-#: templates/core/logistics_dashboard.html:133
+#: templates/core/logistics_dashboard.html:155
 msgid "Complete"
 msgstr "Pari"
 
-#: templates/core/logistics_dashboard.html:142
+#: templates/core/logistics_dashboard.html:164
 msgid "You have no assigned deliveries yet."
 msgstr "O ko ni awọn ifijiṣẹ ti a yàn sibẹsibẹ."
 
-#: templates/core/my_deliveries.html:15 templates/core/product_detail.html:19
-#: templates/core/product_list.html:53
-msgid "Quantity"
-msgstr "Iye"
+#: templates/core/logistics_dashboard.html:169
+msgid "Tips"
+msgstr "Awọn Imọran"
+
+#: templates/core/logistics_dashboard.html:171
+#, fuzzy
+#| msgid "Please fill in the details below to request a delivery."
+msgid "Always confirm pickup and drop-off details before starting a delivery."
+msgstr "Jọwọ kun alaye ni isalẹ lati beere ifijiṣẹ."
+
+#: templates/core/logistics_dashboard.html:172
+msgid "Keep buyers and farmers updated on delivery status (accepted, in transit, delivered)"
+"Keep buyers and farmers updated on delivery status (accepted, in transit, "
+"delivered)."
+msgstr "Pa awọn onra ati awọn agbẹ mọ nipa ipo ifijiṣẹ (ti gba, nlọ lọwọ, ti fi ranṣẹ)."
+
+#: templates/core/logistics_dashboard.html:173
+msgid "Check vehicle condition and fuel before accepting longer trips."
+msgstr "Ṣayẹwo ipo ọkọ ati epo ṣaaju ki o to gba irin-ajo gigun."
+
+#: templates/core/logistics_dashboard.html:174
+msgid "Handle products carefully to maintain quality during transit."
+msgstr "Mu awọn ọja pẹlu iṣọra lati ṣetọju didara nigba gbigbe."
+
+#: templates/core/logistics_dashboard.html:175
+msgid "Respond quickly to new delivery requests to secure assignments."
+msgstr "Dáhùn lẹsẹkẹsẹ si awọn ibeere ifijiṣẹ tuntun lati gba iṣẹ naa."
 
 #: templates/core/my_deliveries.html:18
 msgid "Date Requested"
@@ -313,13 +419,28 @@ msgid "Unknown"
 msgstr "Ailaanu"
 
 #: templates/core/my_deliveries.html:89 templates/core/my_deliveries.html:91
-#: templates/core/pending_deliveries.html:25
+#: templates/core/pending_deliveries.html:26
+#: templates/core/product_detail.html:123 templates/core/product_update.html:19
 msgid "Cancel"
 msgstr "Fagilee"
 
 #: templates/core/my_deliveries.html:99
 msgid "You haven't made any delivery requests yet."
 msgstr "O ko ti ṣe eyikeyi awọn ibeere ifijiṣẹ sibẹsibẹ."
+
+#: templates/core/orders.html:5
+msgid "My Orders"
+msgstr "Awọn aṣẹ mi"
+
+#: templates/core/orders.html:11
+msgid "Order"
+msgstr "Aṣẹ"
+
+#: templates/core/orders.html:29
+#, fuzzy
+#| msgid "You have no assigned deliveries yet."
+msgid "You have no orders yet."
+msgstr "O ko ni awọn ifijiṣẹ ti a yàn sibẹsibẹ."
 
 #: templates/core/pending_deliveries.html:16
 msgid "To:"
@@ -329,49 +450,65 @@ msgstr "Si:"
 msgid "Requested by:"
 msgstr "Ti a beere nipasẹ:"
 
-#: templates/core/pending_deliveries.html:31
+#: templates/core/pending_deliveries.html:39
 msgid "Accept Delivery"
 msgstr "Gba Ifijiṣẹ"
 
-#: templates/core/pending_deliveries.html:35
+#: templates/core/pending_deliveries.html:43
 msgid "Status:"
 msgstr "Ipo:"
 
-#: templates/core/pending_deliveries.html:43
+#: templates/core/pending_deliveries.html:51
 msgid "No pending deliveries at the moment. Check back later!"
 msgstr "Ko si awọn ifijiṣẹ ti nduro lọwọlọwọ. Ṣayẹwo lẹẹkansi nigbamii!"
 
-#: templates/core/product_detail.html:18
-msgid "Price"
-msgstr "Iye owo"
-
-#: templates/core/product_detail.html:20 templates/core/product_list.html:54
+#: templates/core/product_detail.html:21 templates/core/product_list.html:96
 msgid "Location"
 msgstr "Ipo"
 
-#: templates/core/product_detail.html:21
+#: templates/core/product_detail.html:22
 msgid "Category"
 msgstr "Ẹka"
 
-#: templates/core/product_detail.html:23 templates/core/product_list.html:55
+#: templates/core/product_detail.html:26 templates/core/product_list.html:99
 msgid "Posted by"
 msgstr "Ti gbejade nipasẹ"
 
-#: templates/core/product_detail.html:23
+#: templates/core/product_detail.html:27
 msgid "on"
 msgstr "ni"
 
-#: templates/core/product_detail.html:24
-msgid "Back to Products"
-msgstr "Pada si Awọn Ọja"
+#: templates/core/product_detail.html:74
+msgid "Back"
+msgstr "Pada"
 
-#: templates/core/product_detail.html:25
+#: templates/core/product_detail.html:81
+msgid "Edit"
+msgstr "Ṣatunkọ"
+
+#: templates/core/product_detail.html:84
+msgid "Delete"
+msgstr "Pa"
+
+#: templates/core/product_detail.html:91
 msgid "Go to Marketplace"
 msgstr "Lọ si Ọja"
 
-#: templates/core/product_detail.html:26
+#: templates/core/product_detail.html:94
 msgid "Message Farmer"
 msgstr "Firanṣẹ Ifiranṣẹ si Agbe"
+
+#: templates/core/product_detail.html:111
+msgid "Delete Crop Post"
+msgstr "Pa Ifiweranṣẹ Ọja Ogbin"
+
+#: templates/core/product_detail.html:115
+msgid "Are you sure you want to delete this post?"
+msgstr "Ṣé o dájú pé o fẹ pa ifiweranṣẹ yi?"
+
+#: templates/core/product_detail.html:121
+msgid "Yes, Delete"
+msgstr "Bẹẹni, Pa"
 
 #: templates/core/product_form.html:9
 msgid "Post Your Crop for Sale"
@@ -381,73 +518,117 @@ msgstr "Fi Ogbin Rẹ Sọ́ fun Tita"
 msgid "Post Crop"
 msgstr "Fi Ogbin Rẹ Sọ́"
 
-#: templates/core/product_list.html:8
+#: templates/core/product_list.html:10
 msgid "Post a Product"
 msgstr "Fi Ọja Sọ́"
 
-#: templates/core/product_list.html:17
-msgid "Weather in"
-msgstr "Oju-ọjọ ni"
-
-#: templates/core/product_list.html:25
+#: templates/core/product_list.html:30
 msgid "All Crops"
 msgstr "Gbogbo Awọn Ogbin"
 
-#: templates/core/product_list.html:26
+#: templates/core/product_list.html:31
 msgid "Tomato"
 msgstr "Tomati"
 
-#: templates/core/product_list.html:27
+#: templates/core/product_list.html:32
 msgid "Maize"
 msgstr "Agbado"
 
-#: templates/core/product_list.html:28
+#: templates/core/product_list.html:33
 msgid "Pepper"
 msgstr "Ata"
 
-#: templates/core/product_list.html:29
+#: templates/core/product_list.html:34
 msgid "Yam"
 msgstr "Iyan"
 
-#: templates/core/product_list.html:30
+#: templates/core/product_list.html:35
 msgid "Rice"
 msgstr "Iresi"
 
-#: templates/core/product_list.html:31
+#: templates/core/product_list.html:36
 msgid "Cassava"
 msgstr "Gari"
 
-#: templates/core/product_list.html:32
+#: templates/core/product_list.html:37
 msgid "Okra"
 msgstr "Ewedu"
 
-#: templates/core/product_list.html:33
+#: templates/core/product_list.html:38
 msgid "Onion"
 msgstr "Alubosa"
 
-#: templates/core/product_list.html:34
+#: templates/core/product_list.html:39
 msgid "Eggplant"
 msgstr "Egbin"
 
-#: templates/core/product_list.html:35
+#: templates/core/product_list.html:40
 msgid "Carrot"
 msgstr "Karọọti"
 
-#: templates/core/product_list.html:36
+#: templates/core/product_list.html:41
 msgid "Cucumber"
 msgstr "Agusi"
 
-#: templates/core/product_list.html:37
+#: templates/core/product_list.html:42
 msgid "Watermelon"
 msgstr "Dáńdá"
 
-#: templates/core/product_list.html:43
+#: templates/core/product_list.html:47
+msgid "Filter by location"
+msgstr "Ṣàwẹ̀ nípa ipò"
+
+#: templates/core/product_list.html:51
+msgid "Min price"
+msgstr "Ìye kékèké jùlọ"
+
+#: templates/core/product_list.html:55
+msgid "Max price"
+msgstr "Ìye tó pọ̀ jùlọ"
+
+#: templates/core/product_list.html:60
 msgid "Search"
 msgstr "Wa"
 
-#: templates/core/product_list.html:63
+#: templates/core/product_list.html:69
+msgid "Sort by"
+msgstr "Tọ́ka gẹ́gẹ́ bí"
+
+#: templates/core/product_list.html:70
+msgid "Newest"
+msgstr "Tuntun jùlọ"
+
+#: templates/core/product_list.html:71
+msgid "Oldest"
+msgstr "Atijọ́ jùlọ"
+
+#: templates/core/product_list.html:72
+msgid "Price: Low to High"
+msgstr "Ìye: Kéré sí Giga"
+
+#: templates/core/product_list.html:73
+msgid "Price: High to Low"
+msgstr "Ìye: Giga sí Kéré"
+
+#: templates/core/product_list.html:103
+msgid "View Details"
+msgstr "Wo Àlàyé"
+
+#: templates/core/product_list.html:107
+msgid "Add to Cart"
+msgstr "Fi sí Kátì"
+
+#: templates/core/product_list.html:116
 msgid "No products listed yet."
 msgstr "Ko si awọn ọja ti a ṣe atokọ sibẹsibẹ."
+
+#: templates/core/product_update.html:9
+msgid "Edit Crop Post"
+msgstr "Ṣatunkọ Ifiweranṣẹ Ọgbìn"
+
+#: templates/core/product_update.html:16
+msgid "Save Changes"
+msgstr "Fipamọ Àtúnṣe"
 
 #: templates/core/request_delivery.html:7
 msgid "Request a Delivery"
@@ -461,11 +642,11 @@ msgstr "Jọwọ kun alaye ni isalẹ lati beere ifijiṣẹ."
 msgid "Submit Request"
 msgstr "Firanṣẹ Ìbéèrè"
 
-#: templates/core/send_message.html:13 templates/core/send_message.html:33
+#: templates/core/send_message.html:14 templates/core/send_message.html:36
 msgid "Send Message"
 msgstr "Firanṣẹ Ifiranṣẹ"
 
-#: templates/core/send_message.html:20 templates/core/sent_message.html:10
+#: templates/core/send_message.html:23 templates/core/sent_message.html:10
 msgid "Inbox"
 msgstr "Apo-iwọle"
 
@@ -480,3 +661,9 @@ msgstr "Ifiranṣẹ Tuntun"
 #: templates/core/sent_message.html:32
 msgid "You have not sent any messages yet."
 msgstr "O ko ti firanṣẹ eyikeyi ifiranṣẹ sibẹsibẹ."
+
+#~ msgid "Message"
+#~ msgstr "Ifiranṣẹ"
+
+#~ msgid "Back to Products"
+#~ msgstr "Pada si Awọn Ọja"

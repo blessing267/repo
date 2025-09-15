@@ -4,33 +4,36 @@
 
 {% block content %}
 
-<div class="container mt-5">
+<div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-7">
 
-            <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">📨 {% trans "Send Message" %}</h4>
+            <div class="card border-0 shadow-lg rounded-3">
+                <div class="card-header bg-success text-white text-center py-3">
+                    <h4 class="fw-bold mb-0">
+                        <i class="bi bi-envelope-fill me-2"></i> {% trans "Send Message" %}
+                    </h4>
                 </div>
-                <div class="card-body">
+                
+                <div class="card-body p-4">
 
                     <!-- Navigation buttons -->
-                    <div class="mb-4 d-flex justify-content-between">
-                        <a href="{% url 'inbox' %}" class="btn btn-secondary">
-                            📥 {% trans "Inbox" %}
+                    <div class="d-flex justify-content-between mb-4">
+                        <a href="{% url 'inbox' %}" class="btn btn-outline-secondary">
+                            <i class="bi bi-inbox-fill me-1"></i> {% trans "Inbox" %}
                         </a>
-                        <a href="{% url 'sent_messages' %}" class="btn btn-primary">
-                            📤 {% trans "Sent Messages" %}
+                        <a href="{% url 'sent_messages' %}" class="btn btn-outline-primary">
+                            <i class="bi bi-send-fill me-1"></i> {% trans "Sent Messages" %}
                         </a>
                     </div>
 
                     <!-- Message form -->
-                    <form method="post">
+                    <form method="post" novalidate>
                         {% csrf_token %}
                         {{ form|crispy }}
-                        <div class="d-grid mt-3">
-                            <button type="submit" class="btn btn-success btn-lg">
-                                ✉️ {% trans "Send Message" %}
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-success btn-lg shadow-sm">
+                                <i class="bi bi-send me-2"></i> {% trans "Send Message" %}
                             </button>
                         </div>
                     </form>

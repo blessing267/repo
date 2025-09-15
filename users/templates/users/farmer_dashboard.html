@@ -6,17 +6,22 @@
     <h2 class="fw-bold">
         👨‍🌾 {% trans "Farmer Dashboard" %}
         {% if request.user.profile.verified %}
-            <span class="badge bg-success ms-2">✔ Verified Farmer</span>
+            <span class="badge bg-success ms-2">✔ Verified</span>
         {% endif %}
     </h2>
     <p class="lead">{% blocktrans %}Manage your products, messages, and deliveries in one place.{% endblocktrans %}</p>
 
+    <!-- Weather Card -->
     {% if weather %}
-    <div class="card mb-4 shadow-sm" style="max-width: 350px;">
-        <div class="card-body text-center">
-            <h5 class="card-title">🌤 {% blocktrans %}Weather in {{ location }}{% endblocktrans %}</h5>
-            <img src="http://openweathermap.org/img/wn/{{ weather.icon }}.png" alt="Weather icon" class="mb-2">
-            <p class="mb-0"><strong>{{ weather.temp }}°C</strong> - {{ weather.description|title }}</p>
+    <div class="d-flex align-items-center justify-content-between shadow-sm rounded p-3 mb-4" 
+        style="background-color: #cce5ff; width: 100%;">
+        <div class="d-flex align-items-center">
+            <img src="http://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" 
+                alt="Weather icon" width="60" class="me-3">
+            <div>
+                <strong>{% trans "Weather in" %} {{ location|default:"Oyo State" }}:</strong><br>
+                {{ weather.description|title }}, {{ weather.temp }}°C
+            </div>
         </div>
     </div>
     {% endif %}
@@ -91,7 +96,11 @@
                         <img src="{{ product.image.url }}" alt="{{ product.title }}" width="50" class="me-3 rounded">
                     {% endif %}
                     <div>
-                        <h6 class="mb-1">{{ product.title }} — <span class="text-success fw-bold">₦{{ product.price }}</span></h6>
+                        <h6 class="mb-1">
+                            <a href="{% url 'product_detail' product.id %}" class="text-dark text-decoration-none">
+                                {{ product.title }} — <span class="text-success fw-bold">₦{{ product.price }}</span>
+                            </a>
+                        </h6>
                         <small>{{ product.quantity }} units {{ product.location }} • Posted on {{ product.date_posted|date:"M d, Y" }}</small>
                     </div>
                 </div>
@@ -118,8 +127,10 @@
                             <img src="{{ product.image.url }}" alt="{{ product.title }}" width="50" class="me-3 rounded">
                         {% endif %}
                         <div>
-                            <h6 class="mb-1">{{ product.title }} — 
-                                <span class="text-success fw-bold">₦{{ product.price }}</span>
+                            <h6 class="mb-1">
+                                <a href="{% url 'product_detail' product.id %}" class="text-dark text-decoration-none">
+                                    {{ product.title }} — <span class="text-success fw-bold">₦{{ product.price }}</span>
+                                </a>
                             </h6>
                             <small>
                                 {% trans "Farmer:" %} {{ product.farmer.username }} • 

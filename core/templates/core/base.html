@@ -54,7 +54,6 @@
                         <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">{% trans "Profile" %}</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'my_deliveries' %}">{% trans "My Deliveries" %}</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'pending_deliveries' %}">{% trans "Pending Deliveries" %}</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'inbox' %}">{% trans "Messages" %}</a></li>
                     {% elif user.profile.role == 'farmer' %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'farmer_dashboard' %}">{% trans "Dashboard" %}</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">{% trans "Profile" %}</a></li>

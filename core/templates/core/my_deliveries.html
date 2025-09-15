@@ -13,6 +13,7 @@
                         <tr>
                             <th>{% trans "Product" %}</th>
                             <th>{% trans "Quantity" %}</th>
+                            <th>{% trans "Cost" %}</th>
                             <th>{% trans "Pickup" %}</th>
                             <th>{% trans "Destination" %}</th>
                             <th>{% trans "Date Requested" %}</th>
@@ -35,6 +36,7 @@
                         <tr>
                             <td>{{ delivery.product.title }}</td>
                             <td>{{ delivery.product.quantity }}</td>
+                            <td>₦{{ delivery.delivery_cost|default:"-" }}</td>
                             <td>{{ delivery.pickup_location }}</td>
                             <td>{{ delivery.destination }}</td>
                             <td>{{ delivery.date_requested|date:"M d, Y" }}</td>

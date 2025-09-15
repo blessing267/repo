@@ -8,7 +8,7 @@
         <h2 class="fw-bold">
             {% trans "Welcome" %}, {{ request.user.username }} <small class="text-muted">({% trans "Logistics Agent" %})</small>
             {% if request.user.profile.verified %}
-                <span class="badge bg-success ms-2">✔ Verified Agent</span>
+                <span class="badge bg-success ms-2">✔ Verified</span>
             {% endif %}
         </h2>
         <p class="mb-0">{% trans "Manage your deliveries below." %}</p>
@@ -16,12 +16,15 @@
 
     <!-- Weather Card -->
     {% if weather %}
-    <div class="card mb-4" style="max-width: 300px;">
-        <div class="card-body text-center">
-            <h5 class="card-title">🌤 {% trans "Weather in" %} {{ location }}</h5>
-            <img src="http://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" alt="Weather icon">
-            <p class="card-text mb-0">{{ weather.temp }}°C</p>
-            <small class="text-muted text-capitalize">{{ weather.description }}</small>
+    <div class="d-flex align-items-center justify-content-between shadow-sm rounded p-3 mb-4" 
+        style="background-color: #cce5ff; width: 100%;">
+        <div class="d-flex align-items-center">
+            <img src="http://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" 
+                alt="Weather icon" width="60" class="me-3">
+            <div>
+                <strong>{% trans "Weather in" %} {{ location|default:"Oyo State" }}:</strong><br>
+                {{ weather.description|title }}, {{ weather.temp }}°C
+            </div>
         </div>
     </div>
     {% endif %}
@@ -34,7 +37,7 @@
     <!-- Action Buttons -->
     <div class="mb-4 d-flex flex-wrap gap-2">
         <a href="{% url 'product_list' %}" class="btn btn-success flex-grow-1">🛒 {% trans "Browse Marketplace" %}</a>
-        <a href="{% url 'inbox' %}" class="btn btn-primary flex-grow-1">📥 {% blocktrans %}View Inbox ({{ unread_messages }}){% endblocktrans %}</a>
+        <a href="{% url 'inbox' %}" class="btn btn-success flex-grow-1">📥 {% blocktrans %}View Inbox ({{ unread_messages }}){% endblocktrans %}</a>
     </div>
 
     <!-- Dashboard Summary Cards -->
@@ -120,6 +123,7 @@
                 <tr>
                     <th>{% trans "Product" %}</th>
                     <th>{% trans "Farmer" %}</th>
+                    <th>{% trans "Cost" %}</th>
                     <th>{% trans "Pickup" %}</th>
                     <th>{% trans "Destination" %}</th>
                     <th>{% trans "Status" %}</th>
@@ -131,6 +135,7 @@
                 <tr>
                     <td>{{ delivery.product.title }}</td>
                     <td>{{ delivery.farmer.username }}</td>
+                    <td>₦{{ delivery.delivery_cost|default:"--" }}</td>
                     <td>{{ delivery.pickup_location }}</td>
                     <td>{{ delivery.destination }}</td>
                     <td>

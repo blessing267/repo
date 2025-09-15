@@ -1,13 +1,14 @@
 {% extends 'core/base.html' %}
+{% load i18n %}
 {% block content %}
 <div class="container my-4">
-    <h2 class="fw-bold mb-4">My Orders</h2>
+    <h2 class="fw-bold mb-4">{% trans "My Orders" %}</h2>
 
     {% if orders %}
         {% for order in orders %}
         <div class="card mb-3 shadow-sm">
             <div class="card-header">
-                Order #{{ order.id }} - {{ order.created_at|date:"M d, Y H:i" }} - Total: ₦{{ order.total_price|floatformat:2 }}
+                {% trans "Order" %} #{{ order.id }} - {{ order.created_at|date:"M d, Y H:i" }} - {% trans "Total" %}: ₦{{ order.total_price|floatformat:2 }}
             </div>
             <div class="card-body">
                 <ul class="list-group">
@@ -19,13 +20,13 @@
                     {% endfor %}
                 </ul>
                 <div class="card-footer text-end">
-                    <strong>Total: ₦{{ order.total_price|floatformat:2 }}</strong>
+                    <strong>{% trans "Total" %}: ₦{{ order.total_price|floatformat:2 }}</strong>
                 </div>
             </div>
         </div>
         {% endfor %}
     {% else %}
-        <p class="text-muted">You have no orders yet.</p>
+        <p class="text-muted">{% trans "You have no orders yet." %}</p>
     {% endif %}
 </div>
 {% endblock %}

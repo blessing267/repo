@@ -285,6 +285,7 @@ def request_delivery(request, product_id):
             delivery.product = product
             delivery.status = 'pending'
             delivery.save()
+            delivery.calculate_delivery_cost()  # Auto-fill delivery cost
             messages.success(request, "Delivery request submitted successfully.")
             return redirect('my_deliveries')
     else:
