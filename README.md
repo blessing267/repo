@@ -4,9 +4,13 @@
 
 **GitHub Repo:** https://github.com/blessing267/repo.git  
 
+---
+
 ## 📖 About the Project  
 FarmMarket is a digital platform developed as my MSc dissertation at Sheffield Hallam University.  
 It connects farmers with buyers and logistics to improve market access.    
+
+---
 
 ## 🚀 Features  
 - Farmer, buyer & logistics registration
@@ -15,17 +19,25 @@ It connects farmers with buyers and logistics to improve market access.
 - Direct messaging & notifications  
 - Weather information widget  
 
+---
+
 ## 🛠️ Technologies Used  
 - Django (Python)  
 - Azure App Service  
 - MySQL Flexible Server  
 - Bootstrap   
 
+---
+
 ## 👩🏽‍💻 My Role  
 I designed and implemented the backend architecture, integrated Azure services, and led deployment.  
 
+---
+
 ## 📚 Learnings  
 This project helped me strengthen my skills in Django, external API, integrating multilingual support and a light deployment for a prototype. 
+
+---
 
 ## 📸 Screenshots  
 **Homepage:**
@@ -38,6 +50,8 @@ This project helped me strengthen my skills in Django, external API, integrating
 ![Weather Forecast Screenshot](static/core/images/dashfarm.PNG)
 **Language translate:**
 ![Language translator Screenshot](static/core/images/translate.PNG) 
+
+---
 
 ## 🔗 Related Projects  
 - Lily Beauty Bar – Personal Project: https://github.com/blessing267/lilybeautybar.git  
