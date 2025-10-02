@@ -1,9 +1,8 @@
 # 🌾 FarmMarket – Connecting Farmers to Markets  
 
-**Link:** [(https://farmmarket-eca8bbaygva3c0cg.uksouth-01.azurewebsites.net)] 
-**Live Demo:** [https://lilybeautybar.onrender.com](https://lilybeautybar.onrender.com) 
+**Link:** https://farmmarket-eca8bbaygva3c0cg.uksouth-01.azurewebsites.net
 
-**GitHub Repo:** ([https://github.com/blessing267/repo.git])  
+**GitHub Repo:** https://github.com/blessing267/repo.git  
 
 ## 📖 About the Project  
 FarmMarket is a digital platform developed as my MSc dissertation at Sheffield Hallam University.  
