@@ -6,10 +6,10 @@
 
 ## 📖 About the Project  
 FarmMarket is a digital platform developed as my MSc dissertation at Sheffield Hallam University.  
-It connects farmers with buyers to improve market access.    
+It connects farmers with buyers and logistics to improve market access.    
 
 ## 🚀 Features  
-- Farmer & buyer registration
+- Farmer, buyer & logistics registration
 - Language translator 
 - Product listing by farmers  
 - Direct messaging & notifications  
