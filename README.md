@@ -38,3 +38,7 @@ This project helped me strengthen my skills in Django, external API, integrating
 ![Weather Forecast Screenshot](static/core/images/dashfarm.PNG)
 **Language translate:**
 ![Language translator Screenshot](static/core/images/translate.PNG) 
+
+## 🔗 Related Projects  
+- Lily Beauty Bar – Personal Project: https://github.com/blessing267/lilybeautybar.git  
+- AHU Student Portal – Group Project: https://github.com/Blessing1-dev/django-app.git
