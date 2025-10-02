@@ -1,32 +1,35 @@
 # 🌾 FarmMarket – Connecting Farmers to Markets  
 
 **Link:** [(https://farmmarket-eca8bbaygva3c0cg.uksouth-01.azurewebsites.net)] 
-**GitHub Repo:** (this repo link)  
+
+**GitHub Repo:** ([https://github.com/blessing267/repo.git])  
 
 ## 📖 About the Project  
-Lily Beauty Bar is an online beauty store that allows customers to browse and purchase beauty products securely.  
-It was built as part of my personal project to practice Django, Stripe payments, and cloud deployment.  
+FarmMarket is a digital platform developed as my MSc dissertation at Sheffield Hallam University.  
+It connects farmers with buyers to improve market access.    
 
 ## 🚀 Features  
-- User registration & guest checkout  
-- Product listing and detail pages  
-- Stripe integration for secure payments  
-- Mobile-friendly responsive UI  
+- Farmer & buyer registration
+- Language translator 
+- Product listing by farmers  
+- Direct messaging & notifications  
+- Weather information widget  
 
 ## 🛠️ Technologies Used  
-- Python 3  
-- Django 5  
-- PostgreSQL (planned)  
-- Stripe API  
-- Render for deployment  
-- TailwindCSS for styling  
+- Django (Python)  
+- Azure App Service  
+- MySQL Flexible Server  
+- Bootstrap   
 
 ## 👩🏽‍💻 My Role  
-I developed the entire application, including the backend (Django models, views, and Stripe integration), the frontend templates, and deployment to Render.  
-
-## 📸 Screenshots  
-![Homepage Screenshot](link-to-image)
-![Product Page Screenshot](link-to-image)
+I designed and implemented the backend architecture, integrated Azure services, and led deployment.  
 
 ## 📚 Learnings  
-This project helped me strengthen my skills in Django, Stripe API, and deploying production-ready apps to the cloud.  
+This project helped me strengthen my skills in Django, external API, integrating multilingual support and a light deployment for a prototype. 
+
+## 📸 Screenshots  
+![Homepage Screenshot](static/core/images/homefarm.PNG)
+![Product Page Screenshot](static/core/images/productfarm.PNG)
+![Logistics Screenshot](static/core/images/logfarm.PNG)
+![Weather Forecast Screenshot](static/core/images/dashfarm.PNG)
+![Language translator Screenshot](static/core/images/translatefarm.PNG) 
