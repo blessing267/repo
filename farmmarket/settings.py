@@ -35,15 +35,21 @@ DEBUG = config(
     cast=bool
 )
 
-ALLOWED_HOSTS = config(
-    'ALLOWED_HOSTS',
-    default='localhost,127.0.0.1'
-).split(',')
+AZURE_HOSTNAME = os.environ.get("WEBSITE_HOSTNAME")
 
-CSRF_TRUSTED_ORIGINS = config(
-    'CSRF_TRUSTED_ORIGINS',
-    default='http://localhost,http://127.0.0.1'
-).split(',')
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost",
+    "http://127.0.0.1",
+]
+
+if AZURE_HOSTNAME:
+    ALLOWED_HOSTS.append(AZURE_HOSTNAME)
+    CSRF_TRUSTED_ORIGINS.append(f"https://{AZURE_HOSTNAME}")
 
 
 # Application definition
