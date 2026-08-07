@@ -23,21 +23,27 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-h)5yqrw#9c(io$bi)m63%0@m7&ppi#pi0j_$#z2_*byxp6e1#l'
+SECRET_KEY = config(
+    'SECRET_KEY',
+    default='django-insecure-local-dev-key'
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config(
+    'DEBUG',
+    default=True,
+    cast=bool
+)
 
-ALLOWED_HOSTS = [
-    'farmmarket-eca8bbaygva3c0cg.uksouth-01.azurewebsites.net',
-    'localhost',
-    '127.0.0.1',
-]
+ALLOWED_HOSTS = config(
+    'ALLOWED_HOSTS',
+    default='localhost,127.0.0.1'
+).split(',')
 
-
-CSRF_TRUSTED_ORIGINS = [
-    "https://farmmarket-eca8bbaygva3c0cg.uksouth-01.azurewebsites.net",
-]
+CSRF_TRUSTED_ORIGINS = config(
+    'CSRF_TRUSTED_ORIGINS',
+    default='http://localhost,http://127.0.0.1'
+).split(',')
 
 
 # Application definition
@@ -135,7 +141,7 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/home/site/wwwroot/staticfiles'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [ BASE_DIR / 'static' ]  # only if you use a shared static folder
 
 # Default primary key field type
@@ -154,7 +160,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = BASE_DIR / "sent_emails"  # folder where emails will be saved
 DEFAULT_FROM_EMAIL = "noreply@farmmarket.com"
-
 
 USE_I18N = True
 USE_L10N = True
