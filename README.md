@@ -1,6 +1,7 @@
 # 🌾 FarmMarket – Connecting Farmers and buyers directly
 
 **Live:** https://farmmarket-duaqhkb6aefvbcf5.ukwest-01.azurewebsites.net/
+
 **GitHub Repo:** https://github.com/blessing267/repo.git  
 
 ---
@@ -20,6 +21,8 @@ The project was developed to explore how web and cloud technologies can improve 
 - **Database:** SQLite
 - **Cloud:** Microsoft Azure
 - **Deployment:** Azure App Service
+- **Internationalisation (i18n):** Django i18n, English & Yoruba
+- **External APIs:** OpenWeather API
 - **Version Control:** Git & GitHub
 - **Other:** Django Crispy Forms, Bootstrap Icons
 
@@ -63,7 +66,6 @@ The project was developed to explore how web and cloud technologies can improve 
 ### Farmer
 
 Farmers can:
-
 - Create agricultural product listings.
 - Add product images, descriptions, prices, quantities and locations.
 - Edit and delete their own listings.
@@ -74,7 +76,6 @@ Farmers can:
 ### Buyer
 
 Buyers can:
-
 - Browse agricultural products.
 - Search, filter and sort listings.
 - View detailed product information.
@@ -85,7 +86,6 @@ Buyers can:
 ### Logistics Agent
 
 Logistics agents can:
-
 - View delivery requests.
 - Manage assigned deliveries.
 - Update delivery statuses.
