@@ -17,7 +17,7 @@ The project was developed to explore how web and cloud technologies can improve 
 
 ## 🛠️ Technologies Used  
 - **Backend:** Python, Django
-- **Frontend:** HTML, CSS, Bootstrap 5
+- **Frontend:** HTML, CSS, Bootstrap
 - **Database:** SQLite
 - **Cloud:** Microsoft Azure
 - **Deployment:** Azure App Service
